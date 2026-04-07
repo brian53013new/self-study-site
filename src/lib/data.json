@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "React 官方文件",
+    "description": "學習 React 最權威的起步點，包含最新的 Hooks 與伺服器組件說明。",
+    "url": "https://react.dev",
+    "level": "Beginner",
+    "mediaType": "Article",
+    "likesCount": 120
+  },
+  {
+    "id": "2",
+    "title": "Traversy Media - Web Dev Guide",
+    "description": "非常適合初學者的 YouTube 頻道，涵蓋了從 HTML/CSS 到進階框架的所有內容。",
+    "url": "https://youtube.com/@traversymedia",
+    "level": "Beginner",
+    "mediaType": "YouTube",
+    "likesCount": 85
+  }
+]
