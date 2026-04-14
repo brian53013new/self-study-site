@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Compass, Map } from "lucide-react";
 import { AdminProvider } from "@/lib/AdminContext";
 import { AdminTrigger } from "@/components/AdminTrigger";
+import { StudySettings } from "@/components/StudySettings";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,8 +49,10 @@ export default function RootLayout({
                   <Map className="w-4 h-4 mr-1" />
                   學習路徑
                 </Link>
-              </div>
-            </div>
+                <div className="pl-2 border-l">
+                  <StudySettings />
+                </div>
+              </div>            </div>
           </nav>
           <main className="flex-grow">
             {children}
