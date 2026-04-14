@@ -1,11 +1,9 @@
-# 部署 Next.js 到 GitHub Pages 的工作流
+# 部署 Next.js site to Pages
 name: Deploy Next.js site to Pages
 
 on:
   push:
     branches: ["main"]
-
-  # 允許手動執行
   workflow_dispatch:
 
 permissions:
@@ -13,7 +11,6 @@ permissions:
   pages: write
   id-token: write
 
-# 確保同時只有一個部署在進行
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -25,14 +22,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/checkout@v4
+        uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "20" # 強制指定 Node.js 20
           cache: 'npm'
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        with:
-          static_site_generator: next
       - name: Install dependencies
         run: npm install
       - name: Build with Next.js
