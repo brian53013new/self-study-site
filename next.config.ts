@@ -1,12 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  // 移除 output: 'export' 以支援 Server Actions
   images: {
     unoptimized: true,
   },
-  basePath: '/self-study-site',
-  assetPrefix: '/self-study-site',
 };
 
 export default nextConfig;
