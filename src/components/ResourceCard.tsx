@@ -1,16 +1,28 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState, useEffect } from 'react';
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants, Button } from "@/components/ui/button";
-import { ExternalLink, Video, FileText, Globe, PlayCircle, BookOpen, Edit2, BrainCircuit, Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useAdmin } from "@/lib/AdminContext";
-import { EditResourceDialog } from "./EditResourceDialog";
+import { Button } from "@/components/ui/button";
+import { 
+  ExternalLink, 
+  BrainCircuit, 
+  Heart, 
+  PlayCircle, 
+  BookOpen, 
+  Wrench, 
+  FileText,
+  Beaker,
+  Languages
+} from "lucide-react";
 import { QuizDialog } from "./QuizDialog";
-import { saveResource } from "@/app/actions";
-import { generateQuiz } from "@/lib/ai-service";
 
 interface ResourceCardProps {
   id: string;
@@ -18,128 +30,142 @@ interface ResourceCardProps {
   description: string;
   url: string;
   level: string;
-  mediaType: string;
-  likesCount?: number;
+  media_type: string;
+  category_slug: string;
+  likes_count: number;
+  language?: string;
+  is_experiment?: boolean;
 }
 
-const getMediaIcon = (type: string) => {
-  switch (type?.toLowerCase()) {
-    case 'youtube': return <Video className="w-4 h-4 mr-1 text-red-500" />;
-    case 'article': return <FileText className="w-4 h-4 mr-1 text-blue-500" />;
-    case 'interactive': return <Globe className="w-4 h-4 mr-1 text-green-500" />;
-    case 'course': return <PlayCircle className="w-4 h-4 mr-1 text-purple-500" />;
-    default: return <BookOpen className="w-4 h-4 mr-1" />;
-  }
-};
-
-const getLevelBadge = (level: string) => {
-  switch (level?.toLowerCase()) {
-    case 'beginner': return <Badge variant="secondary" className="bg-green-100 text-green-700 hover:bg-green-100">初學者</Badge>;
-    case 'intermediate': return <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-100">進階者</Badge>;
-    case 'advanced': return <Badge variant="secondary" className="bg-red-100 text-red-700 hover:bg-red-100">專家</Badge>;
-    default: return null;
-  }
-};
-
-export const ResourceCard = ({ id, title, description, url, level, mediaType, likesCount }: ResourceCardProps) => {
-  const { isAdmin } = useAdmin();
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+export const ResourceCard = ({ 
+  id, 
+  title, 
+  description, 
+  url, 
+  level, 
+  media_type, 
+  likes_count,
+  language,
+  is_experiment
+}: ResourceCardProps) => {
   const [isQuizOpen, setIsQuizOpen] = useState(false);
-  const [isGeneratingQuiz, setIsGeneratingQuiz] = useState(false);
-  const [quizQuestions, setQuizQuestions] = useState<any[]>([]);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(likes_count);
 
-  const handleSave = async (updatedResource: any) => {
-    const success = await saveResource(updatedResource);
-    if (!success) throw new Error('儲存失敗');
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem('study-favorites') || '[]');
+    setIsLiked(favorites.includes(id));
+  }, [id]);
+
+  const toggleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const favorites = JSON.parse(localStorage.getItem('study-favorites') || '[]');
+    let newFavorites;
+    
+    if (isLiked) {
+      newFavorites = favorites.filter((favId: string) => favId !== id);
+      setLikeCount(prev => prev - 1);
+    } else {
+      newFavorites = [...favorites, id];
+      setLikeCount(prev => prev + 1);
+    }
+    
+    localStorage.setItem('study-favorites', JSON.stringify(newFavorites));
+    setIsLiked(!isLiked);
   };
 
-  const handleGenerateQuiz = async () => {
-    setIsGeneratingQuiz(true);
-    try {
-      const questions = await generateQuiz(title, description);
-      setQuizQuestions(questions);
-      setIsQuizOpen(true);
-    } catch (error: any) {
-      alert(error.message);
-    } finally {
-      setIsGeneratingQuiz(false);
+  const getIcon = () => {
+    switch (media_type) {
+      case 'YouTube': return <PlayCircle className="w-4 h-4" />;
+      case 'Course': return <BookOpen className="w-4 h-4" />;
+      case 'Tool': return <Wrench className="w-4 h-4" />;
+      default: return <FileText className="w-4 h-4" />;
+    }
+  };
+
+  const getLevelColor = () => {
+    switch (level) {
+      case 'Beginner': return 'bg-green-100 text-green-700 border-green-200';
+      case 'Intermediate': return 'bg-blue-100 text-blue-700 border-blue-200';
+      case 'Advanced': return 'bg-purple-100 text-purple-700 border-purple-200';
+      default: return 'bg-slate-100 text-slate-700 border-slate-200';
     }
   };
 
   return (
     <>
-      <Card className="flex flex-col h-full hover:shadow-xl transition-all duration-300 border-2 relative group/card hover:-translate-y-1 bg-white">
-        {isAdmin && (
-          <button 
-            className="absolute top-2 right-2 p-2 bg-white/90 shadow-sm border rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity hover:bg-blue-50 text-blue-600 z-10"
-            onClick={() => setIsEditDialogOpen(true)}
-          >
-            <Edit2 className="w-4 h-4" />
-          </button>
-        )}
-        
-        <CardHeader className="pb-2">
-          <div className="flex justify-between items-start mb-2">
-            {getLevelBadge(level)}
-            <div className="flex items-center text-xs text-muted-foreground bg-gray-50 px-2 py-1 rounded">
-              {getMediaIcon(mediaType)}
-              <span>{mediaType}</span>
+      <div className="group bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col h-full">
+        <div className="p-5 flex-grow">
+          <div className="flex justify-between items-start mb-4">
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline" className={`flex items-center gap-1 font-medium ${getLevelColor()}`}>
+                {level}
+              </Badge>
+              <Badge variant="secondary" className="flex items-center gap-1 bg-slate-100 text-slate-600 border-slate-200">
+                {getIcon()}
+                {media_type}
+              </Badge>
+              {language && (
+                <Badge variant="outline" className="flex items-center gap-1 border-blue-200 text-blue-600 bg-blue-50">
+                  <Languages className="w-3 h-3" />
+                  {language}
+                </Badge>
+              )}
+              {is_experiment && (
+                <Badge variant="outline" className="flex items-center gap-1 border-amber-200 text-amber-600 bg-amber-50">
+                  <Beaker className="w-3 h-3" />
+                  線上實驗室
+                </Badge>
+              )}
             </div>
-          </div>
-          <CardTitle className="text-xl line-clamp-1 font-bold">{title}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex-grow">
-          <CardDescription className="text-sm line-clamp-3 mb-4 text-slate-600">
-            {description}
-          </CardDescription>
-        </CardContent>
-        <CardFooter className="pt-0 flex flex-col gap-3">
-          <div className="w-full flex justify-between items-center">
-            {likesCount !== undefined && (
-              <span className="text-xs text-muted-foreground font-medium">{likesCount} 人推薦</span>
-            )}
-            <a 
-              href={url} 
-              target={url.startsWith('/') ? '_self' : '_blank'} 
-              rel="noopener noreferrer"
-              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "ml-auto group rounded-lg")}
+            <button 
+              onClick={toggleLike}
+              className={`p-2 rounded-full transition-colors ${isLiked ? 'text-red-500 bg-red-50' : 'text-slate-400 hover:bg-slate-50'}`}
             >
-              前往資源
-              <ExternalLink className="w-3 h-3 ml-2 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
+              <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
+            </button>
           </div>
-          
+
+          <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+            {title}
+          </h3>
+          <p className="text-slate-600 text-sm leading-relaxed mb-4">
+            {description}
+          </p>
+        </div>
+
+        <div className="px-5 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between mt-auto">
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-slate-600 hover:text-blue-600 gap-2 px-2"
+              onClick={() => setIsQuizOpen(true)}
+            >
+              <BrainCircuit className="w-4 h-4" />
+              AI 測驗
+            </Button>
+          </div>
           <Button 
-            variant="secondary" 
             size="sm" 
-            className="w-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors rounded-lg border-blue-100 border h-9"
-            onClick={handleGenerateQuiz}
-            disabled={isGeneratingQuiz}
+            className="bg-slate-900 hover:bg-slate-800 text-white gap-2"
+            asChild
           >
-            {isGeneratingQuiz ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <BrainCircuit className="w-4 h-4 mr-2" />
-            )}
-            {isGeneratingQuiz ? 'AI 正在出題...' : '生成 AI 測驗'}
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              查看資源 <ExternalLink className="w-3 h-3" />
+            </a>
           </Button>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
 
-      <EditResourceDialog 
-        resource={{ id, title, description, url, level, mediaType }}
-        isOpen={isEditDialogOpen}
-        onClose={() => setIsEditDialogOpen(false)}
-        onSave={handleSave}
+      <QuizDialog 
+        isOpen={isQuizOpen} 
+        onClose={() => setIsQuizOpen(false)} 
+        resourceTitle={title}
+        resourceDescription={description}
       />
-
-      {isQuizOpen && (
-        <QuizDialog 
-          title={title}
-          questions={quizQuestions}
-          onClose={() => setIsQuizOpen(false)}
-        />
-      )}
     </>
   );
 };

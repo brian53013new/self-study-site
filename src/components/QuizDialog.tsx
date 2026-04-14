@@ -1,119 +1,184 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription,
+  DialogFooter
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { X, BrainCircuit, CheckCircle2, AlertCircle } from "lucide-react";
-
-interface Question {
-  question: string;
-  options: string[];
-  answerIndex: number;
-}
+import { generateQuiz, QuizQuestion } from "@/lib/ai-service";
+import { Loader2, CheckCircle2, XCircle, HelpCircle } from "lucide-react";
 
 interface QuizDialogProps {
-  title: string;
-  questions: Question[];
+  isOpen: boolean;
   onClose: () => void;
+  resourceTitle: string;
+  resourceDescription: string;
 }
 
-export const QuizDialog = ({ title, questions, onClose }: QuizDialogProps) => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
+export const QuizDialog = ({ isOpen, onClose, resourceTitle, resourceDescription }: QuizDialogProps) => {
+  const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
-  const [finished, setFinished] = useState(false);
 
-  const handleSelect = (index: number) => {
-    if (selected !== null) return;
-    setSelected(index);
-    if (index === questions[currentStep].answerIndex) {
-      setScore(score + 1);
-    }
-  };
-
-  const nextStep = () => {
-    if (currentStep < questions.length - 1) {
-      setCurrentStep(currentStep + 1);
-      setSelected(null);
+  useEffect(() => {
+    if (isOpen) {
+      handleGenerate();
     } else {
-      setFinished(true);
+      // Reset state on close
+      setQuestions([]);
+      setCurrentIndex(0);
+      setSelectedOption(null);
+      setIsAnswered(false);
+      setScore(0);
+    }
+  }, [isOpen]);
+
+  const handleGenerate = async () => {
+    setLoading(true);
+    try {
+      const data = await generateQuiz(resourceTitle, resourceDescription);
+      setQuestions(data);
+    } catch (error) {
+      alert('生成失敗，請檢查網路或 API 金鑰。');
+    } finally {
+      setLoading(false);
     }
   };
+
+  const handleOptionSelect = (idx: number) => {
+    if (isAnswered) return;
+    setSelectedOption(idx);
+  };
+
+  const handleSubmit = () => {
+    if (selectedOption === null) return;
+    setIsAnswered(true);
+    if (selectedOption === questions[currentIndex].answerIndex) {
+      setScore(prev => prev + 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+      setSelectedOption(null);
+      setIsAnswered(false);
+    } else {
+      // End of quiz
+    }
+  };
+
+  const currentQ = questions[currentIndex];
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[300] flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border animate-in zoom-in-95 duration-200">
-        <div className="bg-blue-600 p-6 text-white flex justify-between items-center">
-          <div className="flex items-center">
-            <BrainCircuit className="w-5 h-5 mr-2" />
-            <h3 className="font-bold">AI 隨堂練習：{title}</h3>
-          </div>
-          <button onClick={onClose} className="p-1 hover:bg-white/20 rounded-full transition-colors">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-xl bg-white">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <HelpCircle className="w-5 h-5 text-blue-600" />
+            AI 智慧測驗：{resourceTitle}
+          </DialogTitle>
+          <DialogDescription>
+            AI 正在根據這份資源為您量身打造隨機測驗。
+          </DialogDescription>
+        </DialogHeader>
 
-        <div className="p-8">
-          {!finished ? (
+        <div className="py-6 min-h-[300px] flex flex-col justify-center">
+          {loading ? (
+            <div className="flex flex-col items-center gap-3">
+              <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
+              <p className="text-slate-600 font-medium">AI 正在思考題目中...</p>
+            </div>
+          ) : questions.length > 0 ? (
             <div className="space-y-6">
-              <div className="flex justify-between items-end mb-2">
-                <span className="text-xs font-bold text-blue-600 tracking-widest uppercase">Question {currentStep + 1}/{questions.length}</span>
-                <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-blue-600 transition-all duration-300" 
-                    style={{ width: `${((currentStep + 1) / questions.length) * 100}%` }}
-                  />
-                </div>
+              <div className="flex justify-between items-center text-sm text-slate-500 font-medium">
+                <span>問題 {currentIndex + 1} / {questions.length}</span>
+                <span>正確率: {Math.round((score / (currentIndex + (isAnswered ? 1 : 0))) * 100 || 0)}%</span>
               </div>
               
-              <h4 className="text-lg font-bold text-slate-800 leading-tight">
-                {questions[currentStep].question}
-              </h4>
+              <h3 className="text-lg font-bold text-slate-900 leading-relaxed">
+                {currentQ.question}
+              </h3>
 
-              <div className="space-y-3">
-                {questions[currentStep].options.map((option, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => handleSelect(idx)}
-                    disabled={selected !== null}
-                    className={`w-full p-4 rounded-xl border-2 text-left transition-all duration-200 flex justify-between items-center ${
-                      selected === null 
-                        ? 'border-slate-100 hover:border-blue-400 hover:bg-blue-50/50' 
-                        : idx === questions[currentStep].answerIndex
-                        ? 'border-green-500 bg-green-50 text-green-700'
-                        : selected === idx
-                        ? 'border-red-500 bg-red-50 text-red-700'
-                        : 'border-slate-50 opacity-50'
-                    }`}
-                  >
-                    <span className="font-medium text-sm">{option}</span>
-                    {selected !== null && idx === questions[currentStep].answerIndex && <CheckCircle2 className="w-4 h-4 text-green-500" />}
-                    {selected === idx && idx !== questions[currentStep].answerIndex && <AlertCircle className="w-4 h-4 text-red-500" />}
-                  </button>
-                ))}
+              <div className="grid grid-cols-1 gap-3">
+                {currentQ.options.map((opt, idx) => {
+                  const isCorrect = idx === currentQ.answerIndex;
+                  const isSelected = idx === selectedOption;
+                  
+                  let variant = "outline";
+                  if (isAnswered) {
+                    if (isCorrect) variant = "default"; // Correct answer shows green/blue
+                    else if (isSelected) variant = "destructive"; // Wrong selection shows red
+                  } else if (isSelected) {
+                    variant = "secondary";
+                  }
+
+                  return (
+                    <Button
+                      key={idx}
+                      variant={variant as any}
+                      className={`justify-start h-auto py-3 px-4 text-left whitespace-normal ${
+                        isAnswered && isCorrect ? 'bg-green-600 hover:bg-green-600 border-green-600' : ''
+                      }`}
+                      onClick={() => handleOptionSelect(idx)}
+                    >
+                      <span className="mr-3 font-bold opacity-50">{String.fromCharCode(65 + idx)}.</span>
+                      {opt}
+                    </Button>
+                  );
+                })}
               </div>
 
-              {selected !== null && (
-                <Button onClick={nextStep} className="w-full bg-slate-900 hover:bg-black rounded-xl h-12">
-                  {currentStep < questions.length - 1 ? '下一題' : '查看結果'}
-                </Button>
+              {isAnswered && (
+                <div className={`p-4 rounded-lg border flex gap-3 ${
+                  selectedOption === currentQ.answerIndex 
+                    ? 'bg-green-50 border-green-200 text-green-800' 
+                    : 'bg-red-50 border-red-200 text-red-800'
+                }`}>
+                  {selectedOption === currentQ.answerIndex 
+                    ? <CheckCircle2 className="w-5 h-5 shrink-0" />
+                    : <XCircle className="w-5 h-5 shrink-0" />
+                  }
+                  <p className="text-sm font-medium leading-relaxed">
+                    <strong>{selectedOption === currentQ.answerIndex ? '太棒了！' : '可惜答錯了。'}</strong>
+                    <br />
+                    {currentQ.explanation}
+                  </p>
+                </div>
               )}
             </div>
           ) : (
-            <div className="text-center py-8 space-y-6">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-50 rounded-full mb-4">
-                <span className="text-3xl font-black text-blue-600">{Math.round((score / questions.length) * 100)}%</span>
-              </div>
-              <div>
-                <h4 className="text-2xl font-bold text-slate-900">練習完成！</h4>
-                <p className="text-slate-500 mt-2">你在 {questions.length} 題中答對了 {score} 題</p>
-              </div>
-              <Button onClick={onClose} className="w-full bg-blue-600 hover:bg-blue-700 rounded-xl h-12">
-                太棒了，繼續學習
-              </Button>
-            </div>
+            <p className="text-center text-slate-500">無法生成測驗，請稍後再試。</p>
           )}
         </div>
-      </div>
-    </div>
+
+        <DialogFooter className="sm:justify-between gap-2">
+          <Button variant="ghost" onClick={onClose}>
+            結束測驗
+          </Button>
+          {!isAnswered ? (
+            <Button 
+              onClick={handleSubmit} 
+              disabled={selectedOption === null || loading}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              送出答案
+            </Button>
+          ) : (
+            <Button onClick={currentIndex === questions.length - 1 ? onClose : handleNext} className="bg-slate-900">
+              {currentIndex === questions.length - 1 ? '完成' : '下一題'}
+            </Button>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
