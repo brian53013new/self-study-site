@@ -1,19 +1,15 @@
 name: Deploy Next.js site to Pages
-
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
-
 permissions:
   contents: read
   pages: write
   id-token: write
-
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,14 +22,14 @@ jobs:
           node-version: "20"
           cache: 'npm'
       - name: Install dependencies
-        run: npm ci # 使用 ci 確保環境一致
+        run: npm ci
       - name: Build with Next.js
-        run: npx next build
+        # 使用 node 執行 build，強制避開系統舊版本
+        run: node $(which npm) run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
-
   deploy:
     environment:
       name: github-pages

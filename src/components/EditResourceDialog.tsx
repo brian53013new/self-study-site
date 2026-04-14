@@ -9,7 +9,7 @@ import {
   X, 
   Save, 
   Loader2,
-  Youtube,
+  Video,
   FileText,
   Globe,
   PlayCircle,
