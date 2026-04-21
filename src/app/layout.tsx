@@ -45,6 +45,10 @@ export default function RootLayout({
                   <Compass className="w-4 h-4 mr-1" />
                   資源導航
                 </Link>
+                <Link href="/vocab" className="text-muted-foreground hover:text-blue-600 flex items-center text-sm font-medium">
+                  <BookOpen className="w-4 h-4 mr-1" />
+                  單字庫
+                </Link>
                 <Link href="/roadmaps" className="text-muted-foreground hover:text-blue-600 flex items-center text-sm font-medium">
                   <Map className="w-4 h-4 mr-1" />
                   學習路徑
