@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { Settings, Key, Moon, Sun, Languages } from 'lucide-react';
+import { Settings, Key, Moon, Sun, Languages, Check } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,9 +20,10 @@ export const StudySettings = () => {
   const [theme, setTheme] = useState('light');
   const [lang, setLang] = useState('zh-TW');
   const [isOpen, setIsOpen] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    // Load saved settings
+    // 確保頁面初始化時正確載入
     const savedKey = localStorage.getItem('study-guide-api-key');
     if (savedKey) setApiKey(savedKey);
     
@@ -48,122 +49,129 @@ export const StudySettings = () => {
     localStorage.setItem('theme', theme);
     localStorage.setItem('language', lang);
     applyTheme(theme);
-    setIsOpen(false);
-    // Reload or use context to update UI language in a real app
-    // window.location.reload(); 
+    setSaved(true);
+    setTimeout(() => {
+      setSaved(false);
+      setIsOpen(false);
+    }, 1000);
   };
 
   const t = {
     'zh-TW': {
       title: '個人化設定',
-      desc: '調整您的學習偏好與 AI 功能設定。',
+      desc: '調整您的學習偏好、AI 功能與介面語言。',
       apiKey: 'AI API 金鑰',
       apiHint: '* 金鑰儲存在您的瀏覽器中，我們無法存取您的隱私資料。',
       theme: '介面風格',
-      light: '淺色模式',
-      dark: '深色模式',
+      light: '淺色',
+      dark: '深色',
       lang: '介面語言',
       save: '儲存設定',
-      cancel: '取消'
+      cancel: '取消',
+      success: '已儲存！'
     },
     'en': {
       title: 'Settings',
-      desc: 'Adjust your learning preferences and AI settings.',
+      desc: 'Adjust your learning preferences, AI features, and language.',
       apiKey: 'AI API Key',
       apiHint: '* Keys are stored locally in your browser for privacy.',
       theme: 'Theme Style',
-      light: 'Light Mode',
-      dark: 'Dark Mode',
+      light: 'Light',
+      dark: 'Dark',
       lang: 'Language',
       save: 'Save Changes',
-      cancel: 'Cancel'
+      cancel: 'Cancel',
+      success: 'Saved!'
     }
   }[lang as 'zh-TW' | 'en'];
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="text-slate-600 hover:text-blue-600">
+        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary transition-colors">
           <Settings className="w-5 h-5" />
         </Button>
       </DialogTrigger>
       
-      <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
-            <Settings className="w-5 h-5 text-blue-600" />
+      <DialogContent className="sm:max-w-md bg-background border-border shadow-2xl p-6 rounded-2xl overflow-hidden">
+        <DialogHeader className="mb-6">
+          <DialogTitle className="flex items-center gap-3 text-2xl font-black text-foreground">
+            <div className="p-2 bg-blue-600/10 rounded-lg">
+              <Settings className="w-6 h-6 text-blue-600" />
+            </div>
             {t.title}
           </DialogTitle>
-          <DialogDescription className="dark:text-slate-400">
+          <DialogDescription className="text-muted-foreground">
             {t.desc}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
-          {/* Language Section */}
-          <div className="space-y-3">
+        <div className="space-y-8">
+          {/* Language Selection */}
+          <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Languages className="w-4 h-4 text-slate-500" />
-              <Label className="font-bold text-slate-700 dark:text-slate-200">{t.lang}</Label>
+              <Languages className="w-4 h-4 text-blue-500" />
+              <Label className="font-bold text-sm tracking-wide uppercase text-muted-foreground">{t.lang}</Label>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 p-1 bg-muted/30 rounded-xl">
               <Button 
-                variant={lang === 'zh-TW' ? 'default' : 'outline'}
+                variant={lang === 'zh-TW' ? 'secondary' : 'ghost'}
                 onClick={() => setLang('zh-TW')}
-                className="h-10"
+                className={`h-10 rounded-lg ${lang === 'zh-TW' ? 'shadow-sm bg-background' : ''}`}
               >
                 繁體中文
               </Button>
               <Button 
-                variant={lang === 'en' ? 'default' : 'outline'}
+                variant={lang === 'en' ? 'secondary' : 'ghost'}
                 onClick={() => setLang('en')}
-                className="h-10"
+                className={`h-10 rounded-lg ${lang === 'en' ? 'shadow-sm bg-background' : ''}`}
               >
                 English
               </Button>
             </div>
           </div>
 
-          <div className="h-px bg-slate-100 dark:bg-slate-800" />
+          <div className="h-px bg-border/50" />
 
-          {/* API Key Section */}
-          <div className="space-y-3">
+          {/* API Key */}
+          <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Key className="w-4 h-4 text-slate-500" />
-              <Label htmlFor="apiKey" className="font-bold text-slate-700 dark:text-slate-200">
-                {t.apiKey}
-              </Label>
+              <Key className="w-4 h-4 text-blue-500" />
+              <Label htmlFor="apiKey" className="font-bold text-sm tracking-wide uppercase text-muted-foreground">{t.apiKey}</Label>
             </div>
             <Input
               id="apiKey"
               type="password"
               placeholder="Gemini / OpenAI Key..."
-              className="bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+              className="bg-muted/30 border-border h-12 rounded-xl focus:ring-2 focus:ring-blue-600/20"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
             />
-            <p className="text-[11px] text-slate-500 dark:text-slate-500 leading-relaxed italic">
+            <p className="text-[10px] text-muted-foreground leading-relaxed italic">
               {t.apiHint}
             </p>
           </div>
 
-          <div className="h-px bg-slate-100 dark:bg-slate-800" />
+          <div className="h-px bg-border/50" />
 
-          {/* Theme Section */}
-          <div className="space-y-3">
-            <Label className="font-bold text-slate-700 dark:text-slate-200">{t.theme}</Label>
-            <div className="grid grid-cols-2 gap-3">
+          {/* Theme */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <Moon className="w-4 h-4 text-blue-500" />
+              <Label className="font-bold text-sm tracking-wide uppercase text-muted-foreground">{t.theme}</Label>
+            </div>
+            <div className="grid grid-cols-2 gap-3 p-1 bg-muted/30 rounded-xl">
               <Button 
-                variant={theme === 'light' ? 'default' : 'outline'}
+                variant={theme === 'light' ? 'secondary' : 'ghost'}
                 onClick={() => setTheme('light')}
-                className="flex items-center justify-center gap-2 h-10"
+                className={`flex items-center justify-center gap-2 h-10 rounded-lg ${theme === 'light' ? 'shadow-sm bg-background' : ''}`}
               >
                 <Sun className="w-4 h-4" /> {t.light}
               </Button>
               <Button 
-                variant={theme === 'dark' ? 'default' : 'outline'}
+                variant={theme === 'dark' ? 'secondary' : 'ghost'}
                 onClick={() => setTheme('dark')}
-                className="flex items-center justify-center gap-2 h-10"
+                className={`flex items-center justify-center gap-2 h-10 rounded-lg ${theme === 'dark' ? 'shadow-sm bg-background' : ''}`}
               >
                 <Moon className="w-4 h-4" /> {t.dark}
               </Button>
@@ -171,12 +179,15 @@ export const StudySettings = () => {
           </div>
         </div>
 
-        <DialogFooter className="flex sm:justify-between gap-3 border-t pt-4 dark:border-slate-800">
-          <Button variant="ghost" onClick={() => setIsOpen(false)} className="dark:text-slate-400">
+        <DialogFooter className="mt-8 flex gap-3">
+          <Button variant="ghost" onClick={() => setIsOpen(false)} className="flex-1 rounded-xl">
             {t.cancel}
           </Button>
-          <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700 text-white px-8">
-            {t.save}
+          <Button 
+            onClick={handleSave} 
+            className={`flex-1 rounded-xl transition-all duration-300 ${saved ? 'bg-green-600 hover:bg-green-600' : 'bg-blue-600 hover:bg-blue-700'}`}
+          >
+            {saved ? <span className="flex items-center gap-2"><Check className="w-4 h-4" /> {t.success}</span> : t.save}
           </Button>
         </DialogFooter>
       </DialogContent>
