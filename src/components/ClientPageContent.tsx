@@ -17,7 +17,6 @@ interface ClientPageContentProps {
 export const ClientPageContent = ({ initialResources, categories }: ClientPageContentProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('all');
-  const [showVocab, setShowVocab] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
   const filteredResources = useMemo(() => {
@@ -60,15 +59,8 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
         </div>
         <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
           <Button 
-            variant={showVocab ? "default" : "outline"} 
-            onClick={() => { setShowVocab(!showVocab); setShowSettings(false); }}
-            className="gap-2 shrink-0 border-border"
-          >
-            <BookOpen className="w-4 h-4" /> 內建單字庫
-          </Button>
-          <Button 
             variant={showSettings ? "default" : "outline"}
-            onClick={() => { setShowSettings(!showSettings); setShowVocab(false); }}
+            onClick={() => setShowSettings(!showSettings)}
             className="gap-2 shrink-0 border-border"
           >
             <Sparkles className="w-4 h-4" /> AI 設定
@@ -78,34 +70,6 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
 
       {showSettings ? (
         <StudySettings />
-      ) : showVocab ? (
-        <section className="bg-card rounded-2xl p-8 border border-border shadow-sm">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-2xl font-bold text-foreground">核心英語單字庫</h2>
-              <p className="text-muted-foreground">內建國中、高中、多益核心字彙</p>
-            </div>
-            <Button variant="ghost" onClick={() => setShowVocab(false)}>關閉</Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {VOCAB_DATA.map((item, idx) => (
-              <div key={idx} className="p-5 rounded-xl border border-border bg-muted/30 hover:bg-muted/50 hover:shadow-md transition-all">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">{item.word}</span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${
-                    item.level === 'Basic' ? 'bg-green-100 dark:bg-green-900/30 text-green-600' : 
-                    item.level === 'Intermediate' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600' : 'bg-purple-100 dark:bg-purple-900/30 text-purple-600'
-                  }`}>
-                    {item.level}
-                  </span>
-                </div>
-                <p className="text-sm font-bold text-foreground mb-1">{item.translation}</p>
-                <p className="text-xs text-muted-foreground mb-3 leading-relaxed italic">"{item.example}"</p>
-                <p className="text-[11px] text-muted-foreground/60 border-t border-border pt-2">{item.definition}</p>
-              </div>
-            ))}
-          </div>
-        </section>
       ) : (
         <div className="space-y-6">
           <Tabs defaultValue="all" onValueChange={setActiveTab} className="w-full">
