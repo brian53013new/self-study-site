@@ -11,7 +11,7 @@ import { QuizDialog } from "@/components/QuizDialog";
 
 export default function VocabPage() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeLevel, setActiveLevel] = useState<'All' | 'Basic' | 'Intermediate' | 'Advanced'>('All');
+  const [activeLevel, setActiveLevel] = useState<'All' | 'Elementary' | 'Junior' | 'Senior'>('All');
   const [isQuizOpen, setIsQuizOpen] = useState(false);
 
   const filteredVocab = VOCAB_DATA.filter(item => {
@@ -61,15 +61,20 @@ export default function VocabPage() {
             />
           </div>
           <div className="flex bg-card p-1.5 rounded-2xl border border-border shadow-sm">
-            {['All', 'Basic', 'Intermediate', 'Advanced'].map((lvl) => (
+            {[
+              { id: 'All', label: '全部' },
+              { id: 'Elementary', label: '小學' },
+              { id: 'Junior', label: '國中' },
+              { id: 'Senior', label: '高中' }
+            ].map((lvl) => (
               <Button
-                key={lvl}
-                variant={activeLevel === lvl ? 'default' : 'ghost'}
+                key={lvl.id}
+                variant={activeLevel === lvl.id ? 'default' : 'ghost'}
                 size="sm"
-                onClick={() => setActiveLevel(lvl as any)}
-                className={`h-11 px-6 rounded-xl font-bold transition-all ${activeLevel === lvl ? 'shadow-md' : 'text-muted-foreground'}`}
+                onClick={() => setActiveLevel(lvl.id as any)}
+                className={`h-11 px-6 rounded-xl font-bold transition-all ${activeLevel === lvl.id ? 'shadow-md' : 'text-muted-foreground'}`}
               >
-                {lvl === 'All' ? '全部' : lvl}
+                {lvl.label}
               </Button>
             ))}
           </div>
@@ -82,10 +87,10 @@ export default function VocabPage() {
               <div className="flex justify-between items-start mb-4">
                 <span className="text-3xl font-black text-blue-600 dark:text-blue-400 tracking-tight group-hover:scale-105 transition-transform origin-left">{item.word}</span>
                 <Badge variant="outline" className={`font-bold px-3 py-1 rounded-full ${
-                  item.level === 'Basic' ? 'bg-green-50 text-green-600 border-green-200' : 
-                  item.level === 'Intermediate' ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-purple-50 text-purple-600 border-purple-200'
+                  item.level === 'Elementary' ? 'bg-green-50 text-green-600 border-green-200' : 
+                  item.level === 'Junior' ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-purple-50 text-purple-600 border-purple-200'
                 }`}>
-                  {item.level}
+                  {item.level === 'Elementary' ? '小學' : item.level === 'Junior' ? '國中' : '高中'}
                 </Badge>
               </div>
               <p className="text-xl font-bold text-foreground mb-4">{item.translation}</p>
