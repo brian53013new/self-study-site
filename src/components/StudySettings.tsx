@@ -26,7 +26,7 @@ export const StudySettings = () => {
     const savedKey = localStorage.getItem('study-guide-api-key');
     if (savedKey) setApiKey(savedKey);
     
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
     setTheme(savedTheme);
     applyTheme(savedTheme);
 

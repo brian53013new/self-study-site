@@ -33,7 +33,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans flex flex-col min-h-screen`}
       >
         <AdminProvider>
-          <nav className="bg-white border-b sticky top-0 z-50">
+          <nav className="bg-background border-b sticky top-0 z-50">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
               <Link href="/" className="flex items-center font-bold text-xl text-blue-600">
                 <Compass className="w-6 h-6 mr-2" />
@@ -41,15 +41,15 @@ export default function RootLayout({
               </Link>
               
               <div className="flex items-center space-x-6">
-                <Link href="/" className="text-slate-600 hover:text-blue-600 flex items-center text-sm font-medium">
+                <Link href="/" className="text-muted-foreground hover:text-blue-600 flex items-center text-sm font-medium">
                   <Compass className="w-4 h-4 mr-1" />
                   資源導航
                 </Link>
-                <Link href="/roadmaps" className="text-slate-600 hover:text-blue-600 flex items-center text-sm font-medium">
+                <Link href="/roadmaps" className="text-muted-foreground hover:text-blue-600 flex items-center text-sm font-medium">
                   <Map className="w-4 h-4 mr-1" />
                   學習路徑
                 </Link>
-                <div className="pl-2 border-l">
+                <div className="pl-2 border-l border-border">
                   <StudySettings />
                 </div>
               </div>            </div>

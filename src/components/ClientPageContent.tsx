@@ -53,7 +53,7 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <Input 
             placeholder="搜尋課程、實驗室或工具..." 
-            className="pl-10 bg-white"
+            className="pl-10 bg-card border-border"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -62,14 +62,14 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
           <Button 
             variant={showVocab ? "default" : "outline"} 
             onClick={() => { setShowVocab(!showVocab); setShowSettings(false); }}
-            className="gap-2 shrink-0"
+            className="gap-2 shrink-0 border-border"
           >
             <BookOpen className="w-4 h-4" /> 內建單字庫
           </Button>
           <Button 
             variant={showSettings ? "default" : "outline"}
             onClick={() => { setShowSettings(!showSettings); setShowVocab(false); }}
-            className="gap-2 shrink-0"
+            className="gap-2 shrink-0 border-border"
           >
             <Sparkles className="w-4 h-4" /> AI 設定
           </Button>
@@ -79,29 +79,29 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
       {showSettings ? (
         <StudySettings />
       ) : showVocab ? (
-        <section className="bg-white rounded-2xl p-8 border shadow-sm">
+        <section className="bg-card rounded-2xl p-8 border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl font-bold text-slate-900">核心英語單字庫</h2>
-              <p className="text-slate-500">內建國中、高中、多益核心字彙</p>
+              <h2 className="text-2xl font-bold text-foreground">核心英語單字庫</h2>
+              <p className="text-muted-foreground">內建國中、高中、多益核心字彙</p>
             </div>
             <Button variant="ghost" onClick={() => setShowVocab(false)}>關閉</Button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {VOCAB_DATA.map((item, idx) => (
-              <div key={idx} className="p-5 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-md transition-all">
+              <div key={idx} className="p-5 rounded-xl border border-border bg-muted/30 hover:bg-muted/50 hover:shadow-md transition-all">
                 <div className="flex justify-between items-start mb-2">
-                  <span className="text-2xl font-bold text-blue-600">{item.word}</span>
+                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">{item.word}</span>
                   <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${
-                    item.level === 'Basic' ? 'bg-green-100 text-green-600' : 
-                    item.level === 'Intermediate' ? 'bg-blue-100 text-blue-600' : 'bg-purple-100 text-purple-600'
+                    item.level === 'Basic' ? 'bg-green-100 dark:bg-green-900/30 text-green-600' : 
+                    item.level === 'Intermediate' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600' : 'bg-purple-100 dark:bg-purple-900/30 text-purple-600'
                   }`}>
                     {item.level}
                   </span>
                 </div>
-                <p className="text-sm font-bold text-slate-800 mb-1">{item.translation}</p>
-                <p className="text-xs text-slate-500 mb-3 leading-relaxed italic">"{item.example}"</p>
-                <p className="text-[11px] text-slate-400 border-t pt-2">{item.definition}</p>
+                <p className="text-sm font-bold text-foreground mb-1">{item.translation}</p>
+                <p className="text-xs text-muted-foreground mb-3 leading-relaxed italic">"{item.example}"</p>
+                <p className="text-[11px] text-muted-foreground/60 border-t border-border pt-2">{item.definition}</p>
               </div>
             ))}
           </div>
@@ -109,23 +109,23 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
       ) : (
         <div className="space-y-6">
           <Tabs defaultValue="all" onValueChange={setActiveTab} className="w-full">
-            <div className="flex items-center justify-between mb-4">
-              <TabsList className="bg-white border p-1 h-auto flex-wrap">
-                <TabsTrigger value="all" className="gap-2">
+            <div className="flex items-center justify-between mb-4 overflow-x-auto">
+              <TabsList className="bg-card border border-border p-1 h-auto flex-nowrap md:flex-wrap">
+                <TabsTrigger value="all" className="gap-2 shrink-0">
                   <LayoutGrid className="w-4 h-4" /> 全部
                 </TabsTrigger>
                 {categories.filter(c => c.slug !== 'all').map(cat => (
-                  <TabsTrigger key={cat.id} value={cat.slug}>
+                  <TabsTrigger key={cat.id} value={cat.slug} className="shrink-0">
                     {cat.name}
                   </TabsTrigger>
                 ))}
-                <TabsTrigger value="favorites" className="gap-2 text-amber-600">
+                <TabsTrigger value="favorites" className="gap-2 text-amber-600 shrink-0">
                   <Star className="w-4 h-4 fill-current" /> 我的收藏
                 </TabsTrigger>
               </TabsList>
             </div>
 
-            <TabsContent value={activeTab} className="mt-0">
+            <TabsContent value={activeTab} className="mt-0 focus-visible:outline-none">
               {filteredResources.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredResources.map(resource => (
@@ -133,8 +133,8 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-20 bg-white rounded-2xl border border-dashed">
-                  <p className="text-slate-400">找不到相關資源，請嘗試其他關鍵字或分類。</p>
+                <div className="text-center py-20 bg-card rounded-2xl border border-dashed border-border">
+                  <p className="text-muted-foreground">找不到相關資源，請嘗試其他關鍵字或分類。</p>
                 </div>
               )}
             </TabsContent>
