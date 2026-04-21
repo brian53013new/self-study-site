@@ -23,7 +23,6 @@ interface QuizDialogProps {
 type QuizMode = 'Standard' | 'Sprint' | 'Marathon';
 
 export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialogProps) => {
-  // --- 狀態管理 ---
   const [gameState, setGameState] = useState<'Setup' | 'Loading' | 'Playing' | 'Finished'>('Setup');
   const [mode, setMode] = useState<QuizMode>('Standard');
   const [level, setLevel] = useState(defaultLevel);
@@ -34,10 +33,10 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [timeLeft, setTimeLeft] = useState(5);
+  const [isTimedOut, setIsTimedOut] = useState(false);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // --- 初始化與清理 ---
   useEffect(() => {
     if (!isOpen) {
       resetGame();
@@ -45,6 +44,7 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
   }, [isOpen]);
 
   const resetGame = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
     setGameState('Setup');
     setQuestions([]);
     setCurrentIndex(0);
@@ -52,14 +52,12 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
     setIsAnswered(false);
     setScore(0);
     setLives(3);
-    if (timerRef.current) clearInterval(timerRef.current);
+    setIsTimedOut(false);
   };
 
-  // --- 遊戲邏輯 ---
   const startQuiz = async () => {
     setGameState('Loading');
     try {
-      // 這裡傳遞 level 給 generateQuiz，讓它知道要抽哪個等級的單字
       const data = await generateQuiz(`單字測驗：${level}`, `Mode: ${mode}`);
       setQuestions(data);
       setGameState('Playing');
@@ -72,12 +70,14 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
 
   const startTimer = () => {
     setTimeLeft(5);
+    setIsTimedOut(false);
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
+          if (timerRef.current) clearInterval(timerRef.current);
           handleTimeout();
-          return 5;
+          return 0; // 歸零後停止，不再回傳 5
         }
         return prev - 1;
       });
@@ -85,7 +85,7 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
   };
 
   const handleTimeout = () => {
-    if (gameState !== 'Playing' || isAnswered) return;
+    setIsTimedOut(true);
     setIsAnswered(true);
     handleWrongAnswer();
   };
@@ -97,8 +97,8 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
 
   const handleSubmit = () => {
     if (selectedOption === null || isAnswered) return;
-    setIsAnswered(true);
     if (timerRef.current) clearInterval(timerRef.current);
+    setIsAnswered(true);
 
     if (selectedOption === questions[currentIndex].answerIndex) {
       setScore(prev => prev + 1);
@@ -110,29 +110,39 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
   const handleWrongAnswer = () => {
     if (mode === 'Marathon') {
       setLives(prev => {
-        if (prev <= 1) {
+        const newLives = prev - 1;
+        if (newLives <= 0) {
+          // 延遲結束，讓玩家看清楚答案
           setTimeout(() => setGameState('Finished'), 1500);
-          return 0;
         }
-        return prev - 1;
+        return newLives;
       });
     }
   };
 
   const handleNext = () => {
-    if (mode === 'Marathon' || currentIndex < questions.length - 1) {
-      // 如果是馬拉松或還有題，繼續
-      // 馬拉松邏輯：如果快沒題了，可以偷偷補貨或循環
-      setCurrentIndex(prev => prev + 1);
-      setSelectedOption(null);
-      setIsAnswered(false);
-      if (mode === 'Sprint') startTimer();
-    } else {
+    const nextIndex = currentIndex + 1;
+    
+    // 檢查是否結束
+    const isLastQuestion = mode !== 'Marathon' && nextIndex >= questions.length;
+    const isOutOfLives = mode === 'Marathon' && lives <= 0;
+
+    if (isLastQuestion || isOutOfLives) {
       setGameState('Finished');
+      return;
+    }
+
+    // 繼續下一題
+    setCurrentIndex(nextIndex);
+    setSelectedOption(null);
+    setIsAnswered(false);
+    setIsTimedOut(false);
+    
+    if (mode === 'Sprint') {
+      startTimer();
     }
   };
 
-  // --- UI 組件 ---
   if (gameState === 'Setup') {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -208,7 +218,7 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
             </div>
           </div>
 
-          <Button size="lg" className="w-full h-14 rounded-2xl bg-blue-600 hover:bg-blue-700 text-lg font-black" onClick={startQuiz}>
+          <Button size="lg" className="w-full h-14 rounded-2xl bg-blue-600 hover:bg-blue-700 text-lg font-black text-white" onClick={startQuiz}>
             開始挑戰
           </Button>
         </DialogContent>
@@ -216,7 +226,7 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
     );
   }
 
-  const currentQ = questions[currentIndex % questions.length];
+  const currentQ = questions[currentIndex % (questions.length || 1)];
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -231,20 +241,21 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
                 <Badge variant="secondary" className="px-3 py-1 font-bold rounded-lg bg-blue-100 text-blue-700 border-blue-200">
-                  {mode === 'Marathon' ? <Infinity className="w-4 h-4" /> : `題 ${currentIndex + 1} / ${questions.length}`}
+                  {mode === 'Marathon' ? <Infinity className="w-4 h-4 mr-1" /> : `題 ${currentIndex + 1} / ${questions.length}`}
+                  {mode === 'Marathon' && score}
                 </Badge>
                 <div className="flex gap-1">
                   {mode === 'Marathon' && Array.from({length: 3}).map((_, i) => (
-                    <div key={i} className={`w-3 h-3 rounded-full ${i < lives ? 'bg-red-500' : 'bg-slate-200'}`} />
+                    <div key={i} className={`w-3 h-3 rounded-full ${i < lives ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]' : 'bg-slate-200'}`} />
                   ))}
                 </div>
               </div>
-              {mode === 'Sprint' && (
+              {mode === 'Sprint' && !isAnswered && (
                 <div className={`flex items-center gap-2 font-black text-xl ${timeLeft <= 2 ? 'text-red-500 animate-bounce' : 'text-slate-700'}`}>
                   <Timer className="w-5 h-5" /> {timeLeft}s
                 </div>
               )}
-              <div className="font-bold text-slate-500">得分: {score}</div>
+              <div className="font-bold text-slate-500 text-sm">當前得分: {score}</div>
             </div>
 
             <div className="py-4">
@@ -269,8 +280,9 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
                   <Button
                     key={idx}
                     variant={variant as any}
-                    className={`h-16 justify-start px-6 text-lg font-bold rounded-2xl border-2 transition-all ${
-                      isAnswered && isCorrect ? 'bg-green-600 border-green-600 text-white hover:bg-green-600' : ''
+                    className={`h-16 justify-start px-6 text-lg font-bold rounded-2xl border-2 transition-all duration-200 ${
+                      isAnswered && isCorrect ? 'bg-green-600 border-green-600 text-white hover:bg-green-600' : 
+                      isAnswered && isSelected && !isCorrect ? 'bg-red-600 border-red-600 text-white' : ''
                     }`}
                     onClick={() => handleOptionSelect(idx)}
                   >
@@ -281,10 +293,16 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
               })}
             </div>
 
-            <div className="h-20">
+            <div className="min-h-[80px]">
               {isAnswered && (
-                <div className={`p-4 rounded-2xl animate-in slide-in-from-bottom-2 duration-300 ${selectedOption === currentQ.answerIndex ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
-                  <p className="text-sm font-bold leading-relaxed">{currentQ.explanation}</p>
+                <div className={`p-4 rounded-2xl animate-in slide-in-from-bottom-2 duration-300 border ${
+                  isTimedOut ? 'bg-amber-50 border-amber-200 text-amber-800' :
+                  selectedOption === currentQ.answerIndex ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'
+                }`}>
+                  <p className="text-sm font-bold leading-relaxed">
+                    {isTimedOut && <span className="text-red-600 block mb-1">⏰ 時間到！</span>}
+                    {currentQ.explanation}
+                  </p>
                 </div>
               )}
             </div>
@@ -296,30 +314,30 @@ export const QuizDialog = ({ isOpen, onClose, defaultLevel = 'All' }: QuizDialog
                 </Button>
               ) : (
                 <Button className="w-full h-14 rounded-2xl bg-blue-600 text-white font-black text-lg" onClick={handleNext}>
-                  下一題
+                  {currentIndex === questions.length - 1 && mode !== 'Marathon' ? '查看結果' : '下一題'}
                 </Button>
               )}
             </DialogFooter>
           </div>
         ) : (
-          <div className="text-center py-10 space-y-6">
+          <div className="text-center py-10 space-y-6 animate-in zoom-in-95 duration-300">
             <div className="inline-flex p-6 bg-amber-100 rounded-full mb-4">
               <Trophy className="w-16 h-12 text-amber-600" />
             </div>
-            <h2 className="text-4xl font-black italic uppercase tracking-tighter">挑戰結束!</h2>
+            <h2 className="text-4xl font-black italic uppercase tracking-tighter text-slate-900">挑戰結束!</h2>
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-muted p-6 rounded-3xl">
+              <div className="bg-muted p-6 rounded-3xl border border-border">
                 <div className="text-sm font-bold text-muted-foreground uppercase">總得分</div>
                 <div className="text-4xl font-black text-blue-600">{score}</div>
               </div>
-              <div className="bg-muted p-6 rounded-3xl">
+              <div className="bg-muted p-6 rounded-3xl border border-border">
                 <div className="text-sm font-bold text-muted-foreground uppercase">模式</div>
                 <div className="text-xl font-black text-slate-700">{mode}</div>
               </div>
             </div>
             <div className="flex gap-3">
-              <Button variant="outline" className="flex-1 h-14 rounded-2xl font-bold" onClick={resetGame}>再試一次</Button>
-              <Button className="flex-1 h-14 rounded-2xl bg-slate-900 font-bold" onClick={onClose}>離開</Button>
+              <Button variant="outline" className="flex-1 h-14 rounded-2xl font-bold border-2" onClick={resetGame}>再試一次</Button>
+              <Button className="flex-1 h-14 rounded-2xl bg-slate-900 font-bold text-white" onClick={onClose}>離開</Button>
             </div>
           </div>
         )}
