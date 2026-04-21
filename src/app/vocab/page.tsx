@@ -115,8 +115,7 @@ export default function VocabPage() {
         <QuizDialog 
           isOpen={isQuizOpen}
           onClose={() => setIsQuizOpen(false)}
-          resourceTitle="今日單字挑戰"
-          resourceDescription="正在從 3000 字庫中為您抽選隨機單字測驗..."
+          defaultLevel={activeLevel}
         />
       )}
     </div>
