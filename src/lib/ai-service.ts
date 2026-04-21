@@ -1,4 +1,7 @@
-import { VOCAB_DATA, VocabWord } from './vocab-data';
+import { ELEMENTARY_VOCAB } from './vocab/elementary';
+import { JUNIOR_VOCAB } from './vocab/junior';
+import { SENIOR_VOCAB } from './vocab/senior';
+import { VocabWord } from './vocab-data';
 
 export interface QuizQuestion {
   question: string;
@@ -8,33 +11,36 @@ export interface QuizQuestion {
 }
 
 export async function generateQuiz(title: string, description: string): Promise<QuizQuestion[]> {
-  // 檢查是否為單字測驗 (標題包含「單字」或描述涉及 vocab)
-  if (title.includes('單字') || description.toLowerCase().includes('vocab')) {
-    return generateFixedVocabQuiz(title);
+  // 識別難度等級
+  let targetBank: VocabWord[] = [];
+  
+  if (title.includes('Elementary') || title.includes('小學')) {
+    targetBank = ELEMENTARY_VOCAB;
+  } else if (title.includes('Junior') || title.includes('國中')) {
+    targetBank = JUNIOR_VOCAB;
+  } else if (title.includes('Senior') || title.includes('高中')) {
+    targetBank = SENIOR_VOCAB;
+  } else {
+    // 混合模式
+    targetBank = [...ELEMENTARY_VOCAB, ...JUNIOR_VOCAB, ...SENIOR_VOCAB];
   }
 
-  const apiKey = typeof window !== 'undefined' ? localStorage.getItem('study-guide-api-key') : null;
+  // 判斷是否為馬拉松模式 (如果是，我們一次生成多一點題目)
+  const isMarathon = description.includes('Marathon');
+  const count = isMarathon ? 50 : 10;
 
-  // 如果是科學或數學資源
-  if (title.includes('平方根') || title.includes('Math') || title.includes('物理') || title.includes('科學')) {
-    return generateKnowledgeQuiz(title, description, apiKey);
-  }
-
-  return generateGeneralQuiz(title, description, apiKey);
+  return generateFixedVocabQuiz(targetBank, count);
 }
 
-/**
- * 不需要 AI 的固定單字題庫生成器
- */
-function generateFixedVocabQuiz(title: string): QuizQuestion[] {
-  // 隨機選取 5 個單字作為題目
-  const selectedWords = [...VOCAB_DATA]
+function generateFixedVocabQuiz(bank: VocabWord[], count: number): QuizQuestion[] {
+  // 隨機選取單字
+  const selectedWords = [...bank]
     .sort(() => Math.random() - 0.5)
-    .slice(0, 5);
+    .slice(0, Math.min(count, bank.length));
 
   return selectedWords.map(wordItem => {
-    // 隨機選取 3 個錯誤答案 (其他單字的翻譯)
-    const wrongAnswers = VOCAB_DATA
+    // 從同一個 bank 中隨機選取 3 個錯誤答案 (不重複)
+    const wrongAnswers = bank
       .filter(w => w.id !== wordItem.id)
       .sort(() => Math.random() - 0.5)
       .slice(0, 3)
@@ -51,47 +57,4 @@ function generateFixedVocabQuiz(title: string): QuizQuestion[] {
       explanation: `「${wordItem.word}」的意思是「${wordItem.translation}」。\n例句：${wordItem.example}`
     };
   });
-}
-
-/**
- * 知識型題目 (支援 AI 或 模擬)
- */
-async function generateKnowledgeQuiz(title: string, description: string, apiKey: string | null): Promise<QuizQuestion[]> {
-  if (apiKey) {
-    // 這裡實作真正的 AI 呼叫邏輯 (針對知識點出題)
-    // 暫時回傳模擬的高品質題目
-  }
-
-  // 模擬知識型題目
-  if (title.includes('平方根')) {
-    return [
-      {
-        question: '若 x² = 16，則 x 的值為何？',
-        options: ['4', '-4', '4 或 -4', '8'],
-        answerIndex: 2,
-        explanation: '一個正數的平方根有正負兩個值，√16 = 4，所以 x 可以是 4 或 -4。'
-      }
-    ];
-  }
-  
-  return [
-    {
-      question: `關於「${title}」的核心知識點，以下哪項描述最正確？`,
-      options: ['這是關於工具的操作', '這是關於理論的原理', '這是關於歷史的背景', '這是關於應用的技巧'],
-      answerIndex: 1,
-      explanation: '自學的核心在於理解底層原理，而不僅僅是操作。'
-    }
-  ];
-}
-
-async function generateGeneralQuiz(title: string, description: string, apiKey: string | null): Promise<QuizQuestion[]> {
-  // 通用題目邏輯...
-  return [
-    {
-      question: `你剛剛學習了「${title}」，你認為它的核心價值是什麼？`,
-      options: ['獲得新技能', '應付考試', '增加談資', '單純好玩'],
-      answerIndex: 0,
-      explanation: '學習的最重要目的是將新知識轉化為可應用的技能。'
-    }
-  ];
 }
