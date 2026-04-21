@@ -13,7 +13,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
   ExternalLink, 
-  BrainCircuit, 
   Heart, 
   PlayCircle, 
   BookOpen, 
@@ -22,7 +21,6 @@ import {
   Beaker,
   Languages
 } from "lucide-react";
-import { QuizDialog } from "./QuizDialog";
 
 interface ResourceCardProps {
   id: string;
@@ -136,18 +134,7 @@ export const ResourceCard = ({
           </p>
         </div>
 
-        <div className="px-5 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between mt-auto">
-          <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-slate-600 hover:text-blue-600 gap-2 px-2"
-              onClick={() => setIsQuizOpen(true)}
-            >
-              <BrainCircuit className="w-4 h-4" />
-              AI 測驗
-            </Button>
-          </div>
+        <div className="px-5 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-end mt-auto">
           <Button 
             size="sm" 
             className="bg-slate-900 hover:bg-slate-800 text-white gap-2"
@@ -159,13 +146,6 @@ export const ResourceCard = ({
           </Button>
         </div>
       </div>
-
-      <QuizDialog 
-        isOpen={isQuizOpen} 
-        onClose={() => setIsQuizOpen(false)} 
-        resourceTitle={title}
-        resourceDescription={description}
-      />
     </>
   );
 };
