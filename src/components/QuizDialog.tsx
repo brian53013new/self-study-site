@@ -10,6 +10,7 @@ import {
   DialogFooter
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { generateQuiz, QuizQuestion } from "@/lib/ai-service";
 import { Loader2, CheckCircle2, XCircle, Timer, Infinity, Trophy, Flame } from "lucide-react";
 
