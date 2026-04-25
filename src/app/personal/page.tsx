@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info } from 'lucide-react';
+import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History } from 'lucide-react';
 
 export default function PersonalPage() {
   const [authorized, setAuthorized] = useState(false);
@@ -52,7 +52,7 @@ export default function PersonalPage() {
     const _0x7 = "MDkzMzM2NTUwNQ==";
     const _0x9 = "YnJpYW41MzAxMy5uZXdAZ21haWwuY29t";
     const _0xa = "YnJpYW4uYmliaWxhYnU=";
-    const _0xb = "NTg0NDIyMTcw"; // Zoom ID
+    const _0xb = "NTg0NDIyMTcw";
     const _0x8 = (_0x5 === "u") ? _0x6 : (_0x5 === "p" ? _0x7 : (_0x5 === "su" ? _0x9 : (_0x5 === "sp" ? _0xa : _0xb)));
     return atob(_0x8);
   };
@@ -101,71 +101,65 @@ export default function PersonalPage() {
         </div>
       )}
 
-      <div className="grid gap-8 md:grid-cols-2">
-        {/* Zoom Card */}
-        <Card className="overflow-hidden border-2 hover:border-orange-500/50 transition-all group shadow-sm hover:shadow-xl">
-          <div className="h-2 bg-orange-500 w-full" />
-          <CardHeader className="pb-4">
-            <div className="flex justify-between items-start">
-              <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-2xl mb-4 group-hover:scale-110 transition-transform">
-                <Video className="w-10 h-10 text-orange-600 dark:text-orange-400" />
-              </div>
-              <a href="https://us06web.zoom.us/j/5844221701?pwd=7fz5sBze027txb5MxbFYpC5g8cnN9a.1" target="_blank" rel="noopener noreferrer" 
-                 className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition-colors font-bold">
-                進入會議 <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
-            <CardTitle className="text-3xl font-black">Zoom 線上教室</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground text-lg mb-8">即時互動課程入口，點擊上方按鈕可直接加入會議。</p>
-            
-            {isUnlocked ? (
-              <div className="bg-orange-50/50 dark:bg-orange-900/10 p-6 rounded-3xl border border-orange-100 dark:border-orange-900/30">
-                <div className="flex items-center gap-3 text-orange-700 dark:text-orange-400 font-bold mb-4">
-                  <Info className="w-5 h-5" /> 登入資訊
+      <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
+        {/* History Course Large Card */}
+        <Card className="overflow-hidden border-2 border-orange-200 dark:border-orange-900/30 hover:border-orange-500/50 transition-all group shadow-md hover:shadow-2xl lg:col-span-2">
+          <div className="h-3 bg-gradient-to-r from-orange-500 to-amber-400 w-full" />
+          <div className="flex flex-col md:flex-row">
+            <div className="flex-1 p-8">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="p-4 bg-orange-100 dark:bg-orange-900/40 rounded-3xl group-hover:rotate-12 transition-transform">
+                  <History className="w-12 h-12 text-orange-600 dark:text-orange-400" />
                 </div>
-                <div className="flex flex-col space-y-2 font-mono">
-                  <span className="text-xs text-orange-600/60 uppercase tracking-widest">Meeting ID</span>
-                  <span className="text-2xl font-black text-orange-700 dark:text-orange-300 tracking-tighter">
-                    {_0xce("zid")}
-                  </span>
-                  <p className="text-sm text-orange-600/80 mt-2 font-sans italic">※ 若系統要求輸入 ID，請使用上方號碼。</p>
+                <div>
+                  <h2 className="text-4xl font-black text-foreground tracking-tight">歷史專題課程</h2>
+                  <p className="text-orange-600 dark:text-orange-400 font-bold uppercase tracking-widest text-sm mt-1">History Specialist Program</p>
                 </div>
               </div>
-            ) : (
-              <div className="h-[140px] border-2 border-dashed rounded-3xl flex flex-col items-center justify-center bg-muted/20">
-                <Lock className="w-8 h-8 text-muted-foreground/30 mb-2" />
-                <p className="text-sm text-muted-foreground font-medium">會議 ID 已隱藏</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+              
+              <p className="text-muted-foreground text-xl leading-relaxed mb-8 max-w-3xl">
+                本課程專注於歷史脈絡解析與深度專題討論。所有課程皆透過 Zoom 進行實時互動，並提供完整的雲端教材資源供課後複習。
+              </p>
 
-        {/* Cloud Storage Card */}
-        <Card className="overflow-hidden border-2 hover:border-emerald-500/50 transition-all group shadow-sm hover:shadow-xl">
-          <div className="h-2 bg-emerald-500 w-full" />
-          <CardHeader className="pb-4">
-            <div className="flex justify-between items-start">
-              <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl mb-4 group-hover:scale-110 transition-transform">
-                <Cloud className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+              <div className="grid gap-6 md:grid-cols-2">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-bold flex items-center gap-2">
+                    <Video className="w-5 h-5 text-orange-500" /> 線上教室入口
+                  </h3>
+                  <a href="https://us06web.zoom.us/j/5844221701?pwd=7fz5sBze027txb5MxbFYpC5g8cnN9a.1" target="_blank" rel="noopener noreferrer" 
+                     className="flex items-center justify-center gap-3 w-full py-4 bg-orange-600 text-white rounded-2xl hover:bg-orange-700 transition-all shadow-lg hover:shadow-orange-500/20 text-xl font-black">
+                    進入 Zoom 會議 <ExternalLink className="w-5 h-5" />
+                  </a>
+                  
+                  {isUnlocked ? (
+                    <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-2xl border border-orange-100 dark:border-orange-800/30 font-mono">
+                      <span className="text-[10px] text-orange-600/60 uppercase block mb-1 tracking-tighter">Meeting ID</span>
+                      <span className="text-2xl font-black text-orange-700 dark:text-orange-300">{_0xce("zid")}</span>
+                    </div>
+                  ) : (
+                    <div className="p-4 border-2 border-dashed rounded-2xl flex items-center justify-center bg-muted/10 text-muted-foreground text-sm">
+                      <Lock className="w-4 h-4 mr-2 opacity-30" /> 會議 ID 已加密
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-bold flex items-center gap-2">
+                    <Cloud className="w-5 h-5 text-emerald-500" /> 歷史課教材雲端
+                  </h3>
+                  <a href="https://drive.google.com/drive/folders/1D3GTOwFTenNT1I1v-5SPNu3lD597mRsr" target="_blank" rel="noopener noreferrer" 
+                     className="flex items-center justify-center gap-3 w-full py-4 bg-emerald-600 text-white rounded-2xl hover:bg-emerald-700 transition-all shadow-lg hover:shadow-emerald-500/20 text-xl font-black">
+                    開啟雲端硬碟 <ExternalLink className="w-5 h-5" />
+                  </a>
+                  <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-800/30">
+                    <p className="text-sm text-emerald-700 dark:text-emerald-400 leading-snug">
+                      包含歷史課講義、參考文獻與課堂錄影存檔。
+                    </p>
+                  </div>
+                </div>
               </div>
-              <a href="https://drive.google.com/drive/folders/1D3GTOwFTenNT1I1v-5SPNu3lD597mRsr" target="_blank" rel="noopener noreferrer" 
-                 className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-bold">
-                開啟雲端 <ExternalLink className="w-4 h-4" />
-              </a>
             </div>
-            <CardTitle className="text-3xl font-black">課程雲端資源</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground text-lg mb-8">存放所有上課教材、講義與錄影存檔的 Google Drive 空間。</p>
-            <div className="p-6 bg-emerald-50/50 dark:bg-emerald-900/10 rounded-3xl border border-emerald-100 dark:border-emerald-900/30">
-              <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold">
-                <ShieldCheck className="w-5 h-5" /> 存取權限已開放
-              </div>
-              <p className="text-sm text-emerald-600/70 mt-1 font-sans">此連結僅限 Brian 本人使用，請勿外流。</p>
-            </div>
-          </CardContent>
+          </div>
         </Card>
 
         {/* Funday Card */}
