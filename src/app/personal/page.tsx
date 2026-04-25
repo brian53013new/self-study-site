@@ -4,11 +4,18 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Lock } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { ExternalLink, Lock, Eye } from 'lucide-react';
 
 export default function PersonalPage() {
   const [authorized, setAuthorized] = useState(false);
   const router = useRouter();
+
+  // Funday 帳密解鎖狀態
+  const [showFundayPrompt, setShowFundayPrompt] = useState(false);
+  const [fundayPasswordInput, setFundayPasswordInput] = useState('');
+  const [fundayUnlocked, setFundayUnlocked] = useState(false);
+  const [fundayError, setFundayError] = useState(false);
 
   useEffect(() => {
     const access = sessionStorage.getItem('personal_access');
@@ -28,6 +35,18 @@ export default function PersonalPage() {
     );
   }
 
+  const handleUnlockFunday = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (fundayPasswordInput === 'brian') {
+      setFundayUnlocked(true);
+      setShowFundayPrompt(false);
+      setFundayPasswordInput('');
+      setFundayError(false);
+    } else {
+      setFundayError(true);
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="mb-8">
@@ -36,19 +55,88 @@ export default function PersonalPage() {
       </header>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="border-blue-100 bg-blue-50/30">
+        <Card className="border-blue-100 bg-blue-50/30 dark:bg-blue-900/10 dark:border-blue-800/50">
           <CardHeader>
             <CardTitle className="text-lg flex items-center">
               上課連結
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              等待新增連結...
-            </p>
-            <div className="space-y-2">
-              {/* 這裡之後會放上課連結 */}
-              <p className="text-xs italic text-slate-400">目前尚無連結，請貼給我網址後為您新增。</p>
+            <div className="space-y-4">
+              {/* Funday 連結區塊 */}
+              <div className="p-4 bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 shadow-sm">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-blue-600 dark:text-blue-400">Funday 英語學習</h3>
+                  <a 
+                    href="https://funday.asia/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-blue-600 transition-colors"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+                
+                {fundayUnlocked ? (
+                  <div className="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3 rounded text-sm font-mono">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">帳號：</span>
+                      <span className="font-bold">gingerman530@Gmail.com</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">密碼：</span>
+                      <span className="font-bold">0933365505</span>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full mt-2 h-7 text-xs text-muted-foreground hover:text-red-500"
+                      onClick={() => setFundayUnlocked(false)}
+                    >
+                      重新鎖定
+                    </Button>
+                  </div>
+                ) : (
+                  <div>
+                    {!showFundayPrompt ? (
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="w-full flex items-center gap-2"
+                        onClick={() => setShowFundayPrompt(true)}
+                      >
+                        <Eye className="w-4 h-4" />
+                        查看登入資訊
+                      </Button>
+                    ) : (
+                      <form onSubmit={handleUnlockFunday} className="space-y-2 mt-2">
+                        <Input
+                          type="password"
+                          placeholder="請輸入系統密碼解鎖"
+                          value={fundayPasswordInput}
+                          onChange={(e) => setFundayPasswordInput(e.target.value)}
+                          className={`h-8 text-sm ${fundayError ? "border-red-500" : ""}`}
+                          autoFocus
+                        />
+                        {fundayError && <p className="text-[10px] text-red-500">密碼不正確</p>}
+                        <div className="flex gap-2">
+                          <Button type="button" variant="ghost" size="sm" className="flex-1 h-7 text-xs" onClick={() => {
+                            setShowFundayPrompt(false);
+                            setFundayError(false);
+                            setFundayPasswordInput('');
+                          }}>
+                            取消
+                          </Button>
+                          <Button type="submit" size="sm" className="flex-1 h-7 text-xs bg-blue-600 hover:bg-blue-700">
+                            解鎖
+                          </Button>
+                        </div>
+                      </form>
+                    )}
+                  </div>
+                )}
+              </div>
+
             </div>
           </CardContent>
         </Card>
