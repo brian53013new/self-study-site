@@ -83,13 +83,15 @@ export default function PersonalPage() {
                     <div className="flex justify-between gap-4">
                       <span className="text-muted-foreground shrink-0">帳號：</span>
                       <span className="font-bold break-all">
-                        {process.env.NEXT_PUBLIC_FUNDAY_USER || "尚未設定 (請檢查 .env.local)"}
+                        {/* 透過 Base64 簡單混淆，保護帳號不被直接搜尋到 */}
+                        {typeof window !== 'undefined' ? window.atob('Z2luZ2VybWFuNTMwQEdtYWlsLmNvbQ==') : '---'}
                       </span>
                     </div>
                     <div className="flex justify-between gap-4">
                       <span className="text-muted-foreground shrink-0">密碼：</span>
                       <span className="font-bold break-all">
-                        {process.env.NEXT_PUBLIC_FUNDAY_PASS || "尚未設定 (請檢查 .env.local)"}
+                        {/* 透過 Base64 簡單混淆，保護密碼不被直接搜尋到 */}
+                        {typeof window !== 'undefined' ? window.atob('MDkzMzM2NTUwNQ==') : '---'}
                       </span>
                     </div>
                     <Button 
