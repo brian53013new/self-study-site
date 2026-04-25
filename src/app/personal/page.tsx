@@ -11,7 +11,6 @@ export default function PersonalPage() {
   const [authorized, setAuthorized] = useState(false);
   const router = useRouter();
 
-  // Funday 帳密解鎖狀態
   const [showFundayPrompt, setShowFundayPrompt] = useState(false);
   const [fundayPasswordInput, setFundayPasswordInput] = useState('');
   const [fundayUnlocked, setFundayUnlocked] = useState(false);
@@ -48,18 +47,12 @@ export default function PersonalPage() {
     }
   };
 
-  const _0xaf = (_0x1: string, _0x2: number) => {
-    let _0x3 = "";
-    for (let _0x4 = 0; _0x4 < _0x1.length; _0x4++) {
-      _0x3 += String.fromCharCode(_0x1.charCodeAt(_0x4) ^ (_0x2 % (_0x4 + 1)));
-    }
-    return _0x3;
-  };
-
   const _0xce = (_0x5: string) => {
     const _0x6 = "Z2luZ2VybWFuNTMwQGdtYWlsLmNvbQ==";
     const _0x7 = "MDkzMzM2NTUwNQ==";
-    const _0x8 = (_0x5 === "u") ? _0x6 : _0x7;
+    const _0x9 = "YnJpYW41MzAxMy5uZXdAZ21haWwuY29t";
+    const _0xa = "YnJpYW4uYmliaWxhYnU=";
+    const _0x8 = (_0x5 === "u") ? _0x6 : (_0x5 === "p" ? _0x7 : (_0x5 === "su" ? _0x9 : _0xa));
     return atob(_0x8);
   };
 
@@ -82,12 +75,7 @@ export default function PersonalPage() {
               <div className="p-4 bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 shadow-sm">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-bold text-blue-600 dark:text-blue-400">Funday</h3>
-                  <a 
-                    href="https://funday.asia/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-blue-600 transition-colors"
-                  >
+                  <a href="https://funday.asia/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-blue-600 transition-colors">
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 </div>
@@ -96,66 +84,72 @@ export default function PersonalPage() {
                   <div className="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3 rounded text-sm font-mono">
                     <div className="flex justify-between gap-4">
                       <span className="text-muted-foreground shrink-0">ID:</span>
-                      <span className="font-bold break-all">
-                        {_0xce("u")}
-                      </span>
+                      <span className="font-bold break-all">{_0xce("u")}</span>
                     </div>
                     <div className="flex justify-between gap-4">
                       <span className="text-muted-foreground shrink-0">PW:</span>
-                      <span className="font-bold break-all">
-                        {_0xce("p")}
-                      </span>
+                      <span className="font-bold break-all">{_0xce("p")}</span>
                     </div>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="w-full mt-2 h-7 text-xs text-muted-foreground hover:text-red-500"
-                      onClick={() => setFundayUnlocked(false)}
-                    >
-                      Lock
-                    </Button>
                   </div>
                 ) : (
-                  <div>
-                    {!showFundayPrompt ? (
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="w-full flex items-center gap-2"
-                        onClick={() => setShowFundayPrompt(true)}
-                      >
-                        <Eye className="w-4 h-4" />
-                        查看登入資訊
-                      </Button>
-                    ) : (
-                      <form onSubmit={handleUnlockFunday} className="space-y-2 mt-2">
-                        <Input
-                          type="password"
-                          placeholder="請輸入系統密碼解鎖"
-                          value={fundayPasswordInput}
-                          onChange={(e) => setFundayPasswordInput(e.target.value)}
-                          className={`h-8 text-sm ${fundayError ? "border-red-500" : ""}`}
-                          autoFocus
-                        />
-                        {fundayError && <p className="text-[10px] text-red-500">密碼不正確</p>}
-                        <div className="flex gap-2">
-                          <Button type="button" variant="ghost" size="sm" className="flex-1 h-7 text-xs" onClick={() => {
-                            setShowFundayPrompt(false);
-                            setFundayError(false);
-                            setFundayPasswordInput('');
-                          }}>
-                            取消
-                          </Button>
-                          <Button type="submit" size="sm" className="flex-1 h-7 text-xs bg-blue-600 hover:bg-blue-700">
-                            解鎖
-                          </Button>
-                        </div>
-                      </form>
-                    )}
-                  </div>
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => setShowFundayPrompt(true)}><Eye className="w-4 h-4 mr-2" />View</Button>
                 )}
               </div>
 
+              <div className="p-4 bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 shadow-sm">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-blue-600 dark:text-blue-400">SOP Members</h3>
+                  <a href="https://members.sop.org/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-blue-600 transition-colors">
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+                
+                {fundayUnlocked ? (
+                  <div className="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3 rounded text-sm font-mono">
+                    <div className="flex justify-between gap-4">
+                      <span className="text-muted-foreground shrink-0">ID:</span>
+                      <span className="font-bold break-all">{_0xce("su")}</span>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <span className="text-muted-foreground shrink-0">PW:</span>
+                      <div className="text-right">
+                        <span className="font-bold block">{_0xce("sp")}</span>
+                        <span className="text-[10px] text-muted-foreground italic">(或首字大寫)</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => setShowFundayPrompt(true)}><Eye className="w-4 h-4 mr-2" />View</Button>
+                )}
+              </div>
+
+              {fundayUnlocked && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="w-full h-7 text-xs text-muted-foreground hover:text-red-500"
+                  onClick={() => setFundayUnlocked(false)}
+                >
+                  重新鎖定全部資訊
+                </Button>
+              )}
+
+              {showFundayPrompt && !fundayUnlocked && (
+                <form onSubmit={handleUnlockFunday} className="space-y-2 mt-2">
+                  <Input
+                    type="password"
+                    placeholder="請輸入系統密碼解鎖"
+                    value={fundayPasswordInput}
+                    onChange={(e) => setFundayPasswordInput(e.target.value)}
+                    className={`h-8 text-sm ${fundayError ? "border-red-500" : ""}`}
+                    autoFocus
+                  />
+                  <div className="flex gap-2">
+                    <Button type="button" variant="ghost" size="sm" className="flex-1 h-7 text-xs" onClick={() => setShowFundayPrompt(false)}>取消</Button>
+                    <Button type="submit" size="sm" className="flex-1 h-7 text-xs bg-blue-600 hover:bg-blue-700">解鎖</Button>
+                  </div>
+                </form>
+              )}
             </div>
           </CardContent>
         </Card>
