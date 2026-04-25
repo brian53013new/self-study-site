@@ -14,7 +14,8 @@ export const PersonalTrigger = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'brian') {
+    const correctPassword = process.env.NEXT_PUBLIC_PERSONAL_PASSWORD || 'brian';
+    if (password === correctPassword) {
       setShowPrompt(false);
       setPassword('');
       setError(false);

@@ -37,7 +37,8 @@ export default function PersonalPage() {
 
   const handleUnlockFunday = (e: React.FormEvent) => {
     e.preventDefault();
-    if (fundayPasswordInput === 'brian') {
+    const correctPassword = process.env.NEXT_PUBLIC_PERSONAL_PASSWORD || 'brian';
+    if (fundayPasswordInput === correctPassword) {
       setFundayUnlocked(true);
       setShowFundayPrompt(false);
       setFundayPasswordInput('');
@@ -79,13 +80,13 @@ export default function PersonalPage() {
                 
                 {fundayUnlocked ? (
                   <div className="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3 rounded text-sm font-mono">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">帳號：</span>
-                      <span className="font-bold">gingerman530@Gmail.com</span>
+                    <div className="flex justify-between gap-4">
+                      <span className="text-muted-foreground shrink-0">帳號：</span>
+                      <span className="font-bold break-all">{process.env.NEXT_PUBLIC_FUNDAY_USER}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">密碼：</span>
-                      <span className="font-bold">0933365505</span>
+                    <div className="flex justify-between gap-4">
+                      <span className="text-muted-foreground shrink-0">密碼：</span>
+                      <span className="font-bold break-all">{process.env.NEXT_PUBLIC_FUNDAY_PASS}</span>
                     </div>
                     <Button 
                       variant="ghost" 
