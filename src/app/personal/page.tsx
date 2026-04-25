@@ -82,11 +82,15 @@ export default function PersonalPage() {
                   <div className="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3 rounded text-sm font-mono">
                     <div className="flex justify-between gap-4">
                       <span className="text-muted-foreground shrink-0">帳號：</span>
-                      <span className="font-bold break-all">{process.env.NEXT_PUBLIC_FUNDAY_USER}</span>
+                      <span className="font-bold break-all">
+                        {process.env.NEXT_PUBLIC_FUNDAY_USER || "尚未設定 (請檢查 .env.local)"}
+                      </span>
                     </div>
                     <div className="flex justify-between gap-4">
                       <span className="text-muted-foreground shrink-0">密碼：</span>
-                      <span className="font-bold break-all">{process.env.NEXT_PUBLIC_FUNDAY_PASS}</span>
+                      <span className="font-bold break-all">
+                        {process.env.NEXT_PUBLIC_FUNDAY_PASS || "尚未設定 (請檢查 .env.local)"}
+                      </span>
                     </div>
                     <Button 
                       variant="ghost" 
