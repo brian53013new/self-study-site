@@ -37,8 +37,8 @@ export default function PersonalPage() {
 
   const handleUnlockFunday = (e: React.FormEvent) => {
     e.preventDefault();
-    const correctPassword = process.env.NEXT_PUBLIC_PERSONAL_PASSWORD || 'brian';
-    if (fundayPasswordInput === correctPassword) {
+    const _0x8b = process.env.NEXT_PUBLIC_PERSONAL_PASSWORD || [102, 114, 105, 97, 110].map(x => String.fromCharCode(x-1)).join('');
+    if (fundayPasswordInput === _0x8b) {
       setFundayUnlocked(true);
       setShowFundayPrompt(false);
       setFundayPasswordInput('');
@@ -48,28 +48,26 @@ export default function PersonalPage() {
     }
   };
 
-  // 高度混淆的解密函式
-  const _0x5a2e = (s: string, k: string) => {
-    const _0x1 = Array.from(s, (c, i) => String.fromCharCode(c.charCodeAt(0) ^ k.charCodeAt(i % k.length)));
-    return _0x1.join('');
+  const _0xaf = (_0x1: string, _0x2: number) => {
+    let _0x3 = "";
+    for (let _0x4 = 0; _0x4 < _0x1.length; _0x4++) {
+      _0x3 += String.fromCharCode(_0x1.charCodeAt(_0x4) ^ (_0x2 % (_0x4 + 1)));
+    }
+    return _0x3;
   };
 
-  // 預先加密好的資料串 (看起來完全像亂碼)
-  const _0xd1 = "051b070601130d010e1614121541062b0c16080b43170e0d"; // User
-  const _0xd2 = "323b3233323534343034"; // Pass
-
-  // 轉換十六進位回字串的混淆函數
-  const _0x2b = (h: string) => {
-    let s = '';
-    for (let i = 0; i < h.length; i += 2) s += String.fromCharCode(parseInt(h.substr(i, 2), 16));
-    return s;
+  const _0xce = (_0x5: string) => {
+    const _0x6 = "Z2luZ2VybWFuNTMwQEdtYWlsLmNvbQ==";
+    const _0x7 = "MDkzMzM2NTUwNQ==";
+    const _0x8 = (_0x5 === "u") ? _0x6 : _0x7;
+    return atob(_0x8);
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-foreground">個人系統</h1>
-        <p className="text-muted-foreground">歡迎回來，Brian。這裡存放你的私人學習資源與上課連結。</p>
+        <p className="text-muted-foreground">歡迎回來，Brian。</p>
       </header>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -81,10 +79,9 @@ export default function PersonalPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {/* Funday 連結區塊 */}
               <div className="p-4 bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 shadow-sm">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold text-blue-600 dark:text-blue-400">Funday 英語學習</h3>
+                  <h3 className="font-bold text-blue-600 dark:text-blue-400">Funday</h3>
                   <a 
                     href="https://funday.asia/" 
                     target="_blank" 
@@ -98,16 +95,15 @@ export default function PersonalPage() {
                 {fundayUnlocked ? (
                   <div className="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-3 rounded text-sm font-mono">
                     <div className="flex justify-between gap-4">
-                      <span className="text-muted-foreground shrink-0">帳號：</span>
+                      <span className="text-muted-foreground shrink-0">ID:</span>
                       <span className="font-bold break-all">
-                        {/* 最終解密動作：結合密碼與混淆資料 */}
-                        {_0x5a2e(_0x2b(_0xd1), 'brian')}
+                        {_0xce("u")}
                       </span>
                     </div>
                     <div className="flex justify-between gap-4">
-                      <span className="text-muted-foreground shrink-0">密碼：</span>
+                      <span className="text-muted-foreground shrink-0">PW:</span>
                       <span className="font-bold break-all">
-                        {_0x5a2e(_0x2b(_0xd2), 'brian')}
+                        {_0xce("p")}
                       </span>
                     </div>
                     <Button 
@@ -116,7 +112,7 @@ export default function PersonalPage() {
                       className="w-full mt-2 h-7 text-xs text-muted-foreground hover:text-red-500"
                       onClick={() => setFundayUnlocked(false)}
                     >
-                      重新鎖定
+                      Lock
                     </Button>
                   </div>
                 ) : (
