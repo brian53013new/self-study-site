@@ -57,7 +57,7 @@ export default function PersonalPage() {
   };
 
   const _0xce = (_0x5: string) => {
-    const _0x6 = "Z2luZ2VybWFuNTMwQEdtYWlsLmNvbQ==";
+    const _0x6 = "Z2luZ2VybWFuNTMwQGdtYWlsLmNvbQ==";
     const _0x7 = "MDkzMzM2NTUwNQ==";
     const _0x8 = (_0x5 === "u") ? _0x6 : _0x7;
     return atob(_0x8);
