@@ -53,6 +53,7 @@ export default function RootLayout({
                   <Map className="w-4 h-4 mr-1" />
                   學習路徑
                 </Link>
+                <PersonalTrigger />
                 <div className="pl-2 border-l border-border">
                   <StudySettings />
                 </div>
@@ -64,6 +65,10 @@ export default function RootLayout({
           <AdminTrigger />
         </AdminProvider>
       </body>
+    </html>
+  );
+}
+ </body>
     </html>
   );
 }
