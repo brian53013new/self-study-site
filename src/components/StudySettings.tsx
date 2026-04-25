@@ -17,6 +17,7 @@ import {
 
 export const StudySettings = () => {
   const [apiKey, setApiKey] = useState('');
+  const [apiError, setApiError] = useState('');
   const [theme, setTheme] = useState('light');
   const [lang, setLang] = useState('zh-TW');
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +45,29 @@ export const StudySettings = () => {
     }
   };
 
+  const validateApiKey = (key: string) => {
+    if (!key) return true; // 允許為空（不使用 AI 功能）
+    
+    // 基本檢測：OpenAI (sk-...) 或 Gemini (長度至少 30 的字串)
+    const isOpenAI = key.startsWith('sk-');
+    const isGemini = key.length >= 30;
+    
+    // 如果看起來像亂打的（例如重複字元過多或長度太短）
+    const isRandomGrep = /(.)\1{4,}/.test(key); // 連續 5 個相同字元
+    
+    if (isRandomGrep || (!isOpenAI && !isGemini)) {
+      return false;
+    }
+    return true;
+  };
+
   const handleSave = () => {
+    if (apiKey && !validateApiKey(apiKey)) {
+      setApiError(lang === 'zh-TW' ? '偵測到無效或疑似亂碼的 API 金鑰，請檢查。' : 'Invalid or suspicious API key detected.');
+      return;
+    }
+    
+    setApiError('');
     localStorage.setItem('study-guide-api-key', apiKey);
     localStorage.setItem('theme', theme);
     localStorage.setItem('language', lang);
@@ -62,6 +85,7 @@ export const StudySettings = () => {
       desc: '調整您的學習偏好、AI 功能與介面語言。',
       apiKey: 'AI API 金鑰',
       apiHint: '* 金鑰儲存在您的瀏覽器中，我們無法存取您的隱私資料。',
+      apiTesting: '【系統測試中】目前 API 功能處於測試階段，若無法連接或發生錯誤，請及時回報，歡迎隨時提出反饋！',
       theme: '介面風格',
       light: '淺色',
       dark: '深色',
@@ -75,6 +99,7 @@ export const StudySettings = () => {
       desc: 'Adjust your learning preferences, AI features, and language.',
       apiKey: 'AI API Key',
       apiHint: '* Keys are stored locally in your browser for privacy.',
+      apiTesting: '[System Testing] The API feature is in testing. Please report any connection issues or errors immediately. Feedback is welcome!',
       theme: 'Theme Style',
       light: 'Light',
       dark: 'Dark',
@@ -139,14 +164,24 @@ export const StudySettings = () => {
               <Key className="w-4 h-4 text-blue-500" />
               <Label htmlFor="apiKey" className="font-bold text-sm tracking-wide uppercase text-muted-foreground">{t.apiKey}</Label>
             </div>
+            
+            <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/50 p-3 rounded-lg">
+              <p className="text-[11px] text-amber-700 dark:text-amber-400 leading-relaxed font-medium">
+                {t.apiTesting}
+              </p>
+            </div>
+
             <Input
               id="apiKey"
               type="password"
               placeholder="Gemini / OpenAI Key..."
-              className="bg-muted/30 border-border h-12 rounded-xl focus:ring-2 focus:ring-blue-600/20"
+              className={`bg-muted/30 border-border h-12 rounded-xl focus:ring-2 focus:ring-blue-600/20 ${apiError ? 'border-red-500' : ''}`}
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
             />
+            {apiError && (
+              <p className="text-xs text-red-500 font-medium">{apiError}</p>
+            )}
             <p className="text-[10px] text-muted-foreground leading-relaxed italic">
               {t.apiHint}
             </p>
