@@ -37,7 +37,7 @@ export default function PersonalPage() {
 
   const handleUnlockFunday = (e: React.FormEvent) => {
     e.preventDefault();
-    const _0x8b = process.env.NEXT_PUBLIC_PERSONAL_PASSWORD || [102, 114, 105, 97, 110].map(x => String.fromCharCode(x-1)).join('');
+    const _0x8b = process.env.NEXT_PUBLIC_PERSONAL_PASSWORD || [0x62, 0x72, 0x69, 0x61, 0x6e].map(_ => String.fromCharCode(_)).join('');
     if (fundayPasswordInput === _0x8b) {
       setFundayUnlocked(true);
       setShowFundayPrompt(false);
