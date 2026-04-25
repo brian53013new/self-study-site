@@ -48,6 +48,23 @@ export default function PersonalPage() {
     }
   };
 
+  // 高度混淆的解密函式
+  const _0x5a2e = (s: string, k: string) => {
+    const _0x1 = Array.from(s, (c, i) => String.fromCharCode(c.charCodeAt(0) ^ k.charCodeAt(i % k.length)));
+    return _0x1.join('');
+  };
+
+  // 預先加密好的資料串 (看起來完全像亂碼)
+  const _0xd1 = "051b070601130d010e1614121541062b0c16080b43170e0d"; // User
+  const _0xd2 = "323b3233323534343034"; // Pass
+
+  // 轉換十六進位回字串的混淆函數
+  const _0x2b = (h: string) => {
+    let s = '';
+    for (let i = 0; i < h.length; i += 2) s += String.fromCharCode(parseInt(h.substr(i, 2), 16));
+    return s;
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="mb-8">
@@ -83,15 +100,14 @@ export default function PersonalPage() {
                     <div className="flex justify-between gap-4">
                       <span className="text-muted-foreground shrink-0">帳號：</span>
                       <span className="font-bold break-all">
-                        {/* 透過 Base64 簡單混淆，保護帳號不被直接搜尋到 */}
-                        {typeof window !== 'undefined' ? window.atob('Z2luZ2VybWFuNTMwQEdtYWlsLmNvbQ==') : '---'}
+                        {/* 最終解密動作：結合密碼與混淆資料 */}
+                        {_0x5a2e(_0x2b(_0xd1), 'brian')}
                       </span>
                     </div>
                     <div className="flex justify-between gap-4">
                       <span className="text-muted-foreground shrink-0">密碼：</span>
                       <span className="font-bold break-all">
-                        {/* 透過 Base64 簡單混淆，保護密碼不被直接搜尋到 */}
-                        {typeof window !== 'undefined' ? window.atob('MDkzMzM2NTUwNQ==') : '---'}
+                        {_0x5a2e(_0x2b(_0xd2), 'brian')}
                       </span>
                     </div>
                     <Button 
