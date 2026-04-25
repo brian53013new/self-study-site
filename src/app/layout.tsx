@@ -6,6 +6,7 @@ import { Compass, Map, BookOpen } from "lucide-react";
 import { AdminProvider } from "@/lib/AdminContext";
 import { AdminTrigger } from "@/components/AdminTrigger";
 import { StudySettings } from "@/components/StudySettings";
+import { PersonalTrigger } from "@/components/PersonalTrigger";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -65,10 +66,6 @@ export default function RootLayout({
           <AdminTrigger />
         </AdminProvider>
       </body>
-    </html>
-  );
-}
- </body>
     </html>
   );
 }
