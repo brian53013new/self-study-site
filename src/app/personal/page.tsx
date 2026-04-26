@@ -86,7 +86,7 @@ export default function PersonalPage() {
                 <ShieldCheck className="w-4 h-4 mr-2" /> 解鎖資料
               </Button>
             ) : (
-              <Button variant="outline" onClick={() => setIsUnlocked(false)} className="text-red-500 border-red-200 dark:border-red-500/20 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl font-bold">
+              <Button variant="outline" onClick={() => setIsUnlocked(false)} className="text-red-500 border-red-200 dark:border-red-500/30 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl font-bold">
                 <Lock className="w-4 h-4 mr-2" /> 鎖定資料
               </Button>
             )}
@@ -126,10 +126,9 @@ export default function PersonalPage() {
             <h2 className="text-3xl font-black tracking-tight border-l-4 border-orange-500 pl-6">即時視訊教室</h2>
             <div className="space-y-12">
               
-              {/* 歷史 Zoom */}
               <div className="group relative aspect-[2.5/1]">
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-amber-400 rounded-[4rem] blur opacity-5 group-hover:opacity-30 transition duration-1000"></div>
-                <Card className="relative h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-16 flex flex-col justify-between shadow-xl">
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-amber-400 rounded-[4rem] blur opacity-5 group-hover:opacity-20 transition duration-1000"></div>
+                <Card className="relative h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-12 flex flex-col justify-between shadow-xl">
                   <div className="flex justify-between items-start">
                     <div className="p-4 bg-orange-50 dark:bg-orange-500/10 rounded-2xl"><History className="w-10 h-10 text-orange-500" /></div>
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white">歷史專題課程 (Zoom)</h3>
@@ -141,9 +140,8 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* 辯論私教 */}
               <div className="group relative aspect-[2.5/1]">
-                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-16 flex flex-col justify-between shadow-xl">
+                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-12 flex flex-col justify-between shadow-xl">
                   <div className="flex justify-between items-start">
                     <div className="p-4 bg-violet-50 dark:bg-violet-500/10 rounded-2xl"><MessageSquare className="w-10 h-10 text-violet-500" /></div>
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white">辯論私教課程 (Brian)</h3>
@@ -160,9 +158,8 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* 辯論 NGF */}
               <div className="group relative aspect-[2.5/1]">
-                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-16 flex flex-col justify-between shadow-xl">
+                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-12 flex flex-col justify-between shadow-xl">
                   <div className="flex justify-between items-start">
                     <div className="p-4 bg-indigo-50 dark:bg-indigo-500/10 rounded-2xl"><Globe className="w-10 h-10 text-indigo-400" /></div>
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white">辯論專題課程 (NGF)</h3>
@@ -171,9 +168,8 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* 珠心算 */}
               <div className="group relative aspect-[2.5/1]">
-                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-16 flex flex-col justify-between shadow-xl">
+                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-12 flex flex-col justify-between shadow-xl">
                   <div className="flex justify-between items-start">
                     <div className="p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl"><Binary className="w-10 h-10 text-emerald-500" /></div>
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white">珠心算課程</h3>
@@ -182,9 +178,8 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* 奧數精英 */}
               <div className="group relative aspect-[2.5/1]">
-                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-16 flex flex-col justify-between shadow-xl">
+                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-12 flex flex-col justify-between shadow-xl">
                   <div className="flex justify-between items-start">
                     <div className="p-4 bg-red-50 dark:bg-red-500/10 rounded-2xl"><Sigma className="w-10 h-10 text-red-500" /></div>
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white">奧數數學精英課</h3>
@@ -196,9 +191,8 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* 慶元數學 */}
               <div className="group relative aspect-[2.5/1]">
-                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-16 flex flex-col justify-between shadow-xl">
+                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-12 flex flex-col justify-between shadow-xl">
                   <div className="flex justify-between items-start">
                     <div className="p-4 bg-blue-50 dark:bg-blue-500/10 rounded-2xl"><Calculator className="w-10 h-10 text-blue-500" /></div>
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white">慶元數學系統</h3>
@@ -207,9 +201,8 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* 英文理化 */}
               <div className="group relative aspect-[2.5/1]">
-                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-16 flex flex-col justify-between shadow-xl">
+                <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-12 flex flex-col justify-between shadow-xl">
                   <div className="flex justify-between items-start">
                     <div className="p-4 bg-teal-50 dark:bg-teal-500/10 rounded-2xl"><Microscope className="w-10 h-10 text-teal-500" /></div>
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white">英文理化專題</h3>
@@ -225,13 +218,12 @@ export default function PersonalPage() {
             <h2 className="text-3xl font-black tracking-tight border-l-4 border-blue-500 pl-6 text-blue-600 dark:text-blue-400">核心學習平台</h2>
             <div className="space-y-12">
               
-              {/* Funday */}
               <div className="group relative aspect-[2.5/1]">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[4rem] blur opacity-5 group-hover:opacity-20 transition duration-1000"></div>
                 <Card className="relative h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-16 flex flex-col justify-between shadow-xl">
                   <div className="flex justify-between items-start">
                     <div className="p-4 bg-blue-50 dark:bg-blue-500/10 rounded-2xl"><GraduationCap className="w-10 h-10 text-blue-500" /></div>
-                    <h3 className="text-5xl font-black text-slate-900 dark:text-white italic tracking-tighter">Funday</h3>
+                    <h3 className="text-5xl font-black text-slate-900 dark:text-white italic tracking-tighter uppercase">Funday</h3>
                   </div>
                   <div className="flex items-center gap-8">
                     <a href="https://funday.asia/" target="_blank" rel="noopener noreferrer" className="px-14 py-6 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-2xl font-black shadow-xl">前往平台</a>
@@ -239,14 +231,13 @@ export default function PersonalPage() {
                       <div className="bg-slate-50 dark:bg-zinc-900 p-8 rounded-3xl border border-slate-200 dark:border-white/5 font-mono flex-1 text-left">
                         <div className="text-slate-400 dark:text-zinc-600 text-xs font-black uppercase mb-1 tracking-widest">Email address</div>
                         <div className="text-xl text-slate-800 dark:text-white font-bold">{_0xce("u")}</div>
-                        <div className="text-3xl font-black text-blue-600 dark:text-blue-500 mt-1">{_0xce("p")}</div>
+                        <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mt-1">{_0xce("p")}</div>
                       </div>
                     )}
                   </div>
                 </Card>
               </div>
 
-              {/* SOP 會員 */}
               <div className="group relative aspect-[2.5/1]">
                 <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-16 flex flex-col justify-between shadow-xl">
                   <div className="flex justify-between items-start">
@@ -266,23 +257,24 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* Henry 讀書會 */}
               <div className="group relative aspect-[2.5/1]">
                 <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[4rem] p-16 flex flex-col justify-between shadow-xl">
-                  <div className="p-4 bg-purple-50 dark:bg-purple-500/10 rounded-2xl"><BookOpen className="w-10 h-10 text-purple-500" /></div>
-                  <h3 className="text-3xl font-black text-slate-900 dark:text-white">Henry Club</h3>
-                </div>
-                <div className="flex items-center gap-8">
-                  <a href="https://course.henrypedia.com/login" target="_blank" rel="noopener noreferrer" className="px-14 py-6 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl text-2xl font-black shadow-xl">前往登入</a>
-                  {isUnlocked && (
-                    <div className="bg-slate-50 dark:bg-zinc-900 p-8 rounded-3xl border border-slate-200 dark:border-white/5 font-mono flex-1 text-left">
-                      <div className="text-slate-400 dark:text-zinc-600 text-xs font-black uppercase mb-1 tracking-widest">Email address</div>
-                      <div className="text-xl text-slate-800 dark:text-white font-bold">{_0xce("hu")}</div>
-                      <div className="text-4xl font-black text-purple-600 dark:text-purple-400 mt-1">{_0xce("hp")}</div>
-                    </div>
-                  )}
-                </div>
-              </Card>
+                  <div className="flex justify-between items-start">
+                    <div className="p-4 bg-purple-50 dark:bg-purple-500/10 rounded-2xl"><BookOpen className="w-10 h-10 text-purple-500" /></div>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-white">Henry Club</h3>
+                  </div>
+                  <div className="flex items-center gap-8">
+                    <a href="https://course.henrypedia.com/login" target="_blank" rel="noopener noreferrer" className="px-14 py-6 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl text-2xl font-black shadow-xl">前往登入</a>
+                    {isUnlocked && (
+                      <div className="bg-slate-50 dark:bg-zinc-900 p-8 rounded-3xl border border-slate-200 dark:border-white/5 font-mono flex-1 text-left">
+                        <div className="text-slate-400 dark:text-zinc-600 text-xs font-black uppercase mb-1 tracking-widest">Email address</div>
+                        <div className="text-xl text-slate-800 dark:text-white font-bold">{_0xce("hu")}</div>
+                        <div className="text-4xl font-black text-purple-600 dark:text-purple-400 mt-1">{_0xce("hp")}</div>
+                      </div>
+                    )}
+                  </div>
+                </Card>
+              </div>
             </div>
           </section>
 
@@ -291,7 +283,6 @@ export default function PersonalPage() {
             <h2 className="text-3xl font-black tracking-tight border-l-4 border-emerald-500 pl-6 text-emerald-600 dark:text-emerald-400">輔助與官網資源</h2>
             <div className="space-y-12">
               
-              {/* SOP 官網 */}
               <div className="group relative aspect-[3/1]">
                 <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[3rem] p-12 flex items-center justify-between shadow-xl">
                   <div className="flex items-center gap-8">
@@ -302,7 +293,6 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* 歷史雲端 */}
               <div className="group relative aspect-[3/1]">
                 <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[3rem] p-12 flex items-center justify-between shadow-xl">
                   <div className="flex items-center gap-8">
@@ -315,7 +305,6 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* AI Hour of AI */}
               <div className="group relative aspect-[3/1]">
                 <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[3rem] p-12 flex items-center justify-between shadow-xl">
                   <div className="flex items-center gap-8">
@@ -326,7 +315,6 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* AI Kyros */}
               <div className="group relative aspect-[3/1]">
                 <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[3rem] p-12 flex items-center justify-between shadow-xl">
                   <div className="flex items-center gap-8">
@@ -337,11 +325,10 @@ export default function PersonalPage() {
                 </Card>
               </div>
 
-              {/* EDX */}
               <div className="group relative aspect-[3/1]">
                 <Card className="h-full bg-white dark:bg-zinc-950 border-slate-200 dark:border-white/5 rounded-[3rem] p-12 flex items-center justify-between shadow-xl">
                   <div className="flex items-center gap-8">
-                    <div className="p-4 bg-red-50 dark:bg-red-500/10 rounded-full"><Globe className="w-12 h-12 text-red-600" /></div>
+                    <div className="p-4 bg-red-50 dark:bg-red-600/10 rounded-full"><Globe className="w-12 h-12 text-red-600" /></div>
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white">EDX Global Learning</h3>
                   </div>
                   <a href="https://www.edx.org/" target="_blank" rel="noopener noreferrer" className="bg-red-600 text-white px-10 py-5 rounded-2xl font-black text-xl shadow-xl transition-all hover:bg-red-700">訪問官網</a>
