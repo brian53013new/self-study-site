@@ -55,6 +55,17 @@ export const StudySettings = () => {
     }
   };
 
+  const validateApiKey = (key: string) => {
+    if (!key) return true;
+    const isOpenAI = key.startsWith('sk-');
+    const isGemini = key.length >= 30;
+    const isRandomGrep = /(.)\1{4,}/.test(key);
+    if (isRandomGrep || (!isOpenAI && !isGemini)) {
+      return false;
+    }
+    return true;
+  };
+
   const handleSave = () => {
     if (apiKey && !validateApiKey(apiKey)) {
       setApiError(lang === 'zh-TW' ? '偵測到無效或疑似亂碼的 API 金鑰，請檢查。' : 'Invalid or suspicious API key detected.');
