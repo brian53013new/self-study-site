@@ -11,9 +11,11 @@ import {
   Languages, Calculator, Sigma, Phone, Binary, Music, Layout, Eye, Sparkles
 } from 'lucide-react';
 
+import { useLanguage } from '@/lib/LanguageContext';
+
 export default function PersonalPage() {
+  const { lang } = useLanguage();
   const [authorized, setAuthorized] = useState(false);
-  const [lang, setLang] = useState('zh-TW');
   const router = useRouter();
   const [showPrompt, setShowPrompt] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
@@ -27,10 +29,6 @@ export default function PersonalPage() {
     } else {
       setAuthorized(true);
     }
-    
-    // 取得當前語言設定
-    const savedLang = localStorage.getItem('language') || 'zh-TW';
-    setLang(savedLang);
   }, [router]);
 
   if (!authorized) {

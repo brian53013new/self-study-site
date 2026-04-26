@@ -15,7 +15,10 @@ import {
   DialogFooter
 } from "@/components/ui/dialog";
 
+import { useLanguage } from '@/lib/LanguageContext';
+
 export const StudySettings = () => {
+  const { lang: globalLang, setLanguage: setGlobalLanguage } = useLanguage();
   const [apiKey, setApiKey] = useState('');
   const [apiError, setApiError] = useState('');
   const [theme, setTheme] = useState('light');
@@ -32,9 +35,16 @@ export const StudySettings = () => {
     setTheme(savedTheme);
     applyTheme(savedTheme);
 
-    const savedLang = localStorage.getItem('language') || 'zh-TW';
-    setLang(savedLang);
-  }, []);
+    // 從 Global Context 同步
+    setLang(globalLang);
+  }, [globalLang]);
+  
+  // 當對話框打開時，確保本地狀態與全域狀態一致
+  useEffect(() => {
+    if (isOpen) {
+      setLang(globalLang);
+    }
+  }, [isOpen, globalLang]);
 
   const applyTheme = (newTheme: string) => {
     const root = window.document.documentElement;
@@ -43,22 +53,6 @@ export const StudySettings = () => {
     } else {
       root.classList.remove('dark');
     }
-  };
-
-  const validateApiKey = (key: string) => {
-    if (!key) return true; // 允許為空（不使用 AI 功能）
-    
-    // 基本檢測：OpenAI (sk-...) 或 Gemini (長度至少 30 的字串)
-    const isOpenAI = key.startsWith('sk-');
-    const isGemini = key.length >= 30;
-    
-    // 如果看起來像亂打的（例如重複字元過多或長度太短）
-    const isRandomGrep = /(.)\1{4,}/.test(key); // 連續 5 個相同字元
-    
-    if (isRandomGrep || (!isOpenAI && !isGemini)) {
-      return false;
-    }
-    return true;
   };
 
   const handleSave = () => {
@@ -70,7 +64,10 @@ export const StudySettings = () => {
     setApiError('');
     localStorage.setItem('study-guide-api-key', apiKey);
     localStorage.setItem('theme', theme);
-    localStorage.setItem('language', lang);
+    
+    // 更新全域語言
+    setGlobalLanguage(lang as 'zh-TW' | 'en');
+    
     applyTheme(theme);
     setSaved(true);
     setTimeout(() => {

@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import { Compass, Map, BookOpen } from "lucide-react";
 import { AdminProvider } from "@/lib/AdminContext";
+import { LanguageProvider } from "@/lib/LanguageContext";
 import { AdminTrigger } from "@/components/AdminTrigger";
 import { StudySettings } from "@/components/StudySettings";
 import { PersonalTrigger } from "@/components/PersonalTrigger";
@@ -33,40 +34,42 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans flex flex-col min-h-screen`}
       >
-        <AdminProvider>
-          <nav className="bg-background border-b sticky top-0 z-50">
-            <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-              <Link href="/" className="flex items-center font-bold text-xl text-blue-600">
-                <Compass className="w-6 h-6 mr-2" />
-                自學指南
-              </Link>
-              
-              <div className="flex items-center space-x-6">
-                <Link href="/" className="text-muted-foreground hover:text-blue-600 flex items-center text-sm font-medium">
-                  <Compass className="w-4 h-4 mr-1" />
-                  資源導航
+        <LanguageProvider>
+          <AdminProvider>
+            <nav className="bg-background border-b sticky top-0 z-50">
+              <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+                <Link href="/" className="flex items-center font-bold text-xl text-blue-600">
+                  <Compass className="w-6 h-6 mr-2" />
+                  自學指南
                 </Link>
-                <Link href="/vocab" className="text-muted-foreground hover:text-blue-600 flex items-center text-sm font-medium">
-                  <BookOpen className="w-4 h-4 mr-1" />
-                  單字庫
-                </Link>
-                <Link href="/roadmaps" className="text-muted-foreground hover:text-blue-600 flex items-center text-sm font-medium">
-                  <Map className="w-4 h-4 mr-1" />
-                  學習路徑
-                </Link>
-                <PersonalTrigger />
-                <div className="pl-2 border-l border-border">
-                  <div className="flex items-center gap-2">
-                    <StudySettings />
+                
+                <div className="flex items-center space-x-6">
+                  <Link href="/" className="text-muted-foreground hover:text-blue-600 flex items-center text-sm font-medium">
+                    <Compass className="w-4 h-4 mr-1" />
+                    資源導航
+                  </Link>
+                  <Link href="/vocab" className="text-muted-foreground hover:text-blue-600 flex items-center text-sm font-medium">
+                    <BookOpen className="w-4 h-4 mr-1" />
+                    單字庫
+                  </Link>
+                  <Link href="/roadmaps" className="text-muted-foreground hover:text-blue-600 flex items-center text-sm font-medium">
+                    <Map className="w-4 h-4 mr-1" />
+                    學習路徑
+                  </Link>
+                  <PersonalTrigger />
+                  <div className="pl-2 border-l border-border">
+                    <div className="flex items-center gap-2">
+                      <StudySettings />
+                    </div>
                   </div>
-                </div>
-              </div>            </div>
-          </nav>
-          <main className="flex-grow">
-            {children}
-          </main>
-          <AdminTrigger />
-        </AdminProvider>
+                </div>            </div>
+            </nav>
+            <main className="flex-grow">
+              {children}
+            </main>
+            <AdminTrigger />
+          </AdminProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
