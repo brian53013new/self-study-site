@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History, BookOpen, Brain, Globe, MessageSquare } from 'lucide-react';
+import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History, BookOpen, Brain, Globe, MessageSquare, Microscope, Languages } from 'lucide-react';
 
 export default function PersonalPage() {
   const [authorized, setAuthorized] = useState(false);
@@ -106,6 +106,47 @@ export default function PersonalPage() {
       )}
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+        {/* English Science Course Card */}
+        <Card className="overflow-hidden border-2 border-teal-200 dark:border-teal-900/30 hover:border-teal-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
+          <div className="h-3 bg-gradient-to-r from-teal-500 to-cyan-400 w-full" />
+          <div className="p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-4 bg-teal-100 dark:bg-teal-900/40 rounded-3xl group-hover:rotate-12 transition-transform">
+                <div className="relative">
+                  <Microscope className="w-12 h-12 text-teal-600 dark:text-teal-400" />
+                  <Languages className="w-6 h-6 text-cyan-600 dark:text-cyan-300 absolute -bottom-1 -right-1 bg-background rounded-full p-0.5" />
+                </div>
+              </div>
+              <div>
+                <h2 className="text-4xl font-black text-foreground tracking-tight">英文理化專題</h2>
+                <p className="text-teal-600 dark:text-teal-400 font-bold uppercase tracking-widest text-sm mt-1">English for Physical Science</p>
+              </div>
+            </div>
+            <p className="text-muted-foreground text-xl leading-relaxed mb-8 max-w-4xl">
+              結合科學知識與英語能力培養的跨領域課程。透過全英文環境探討物理與化學核心概念。
+            </p>
+            <div className="grid gap-8 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold flex items-center gap-2">
+                  <Video className="w-6 h-6 text-teal-500" /> 線上教室入口
+                </h3>
+                <a href="https://meet.google.com/fzm-ecmz-api" target="_blank" rel="noopener noreferrer" 
+                   className="flex items-center justify-center gap-3 w-full py-5 bg-teal-600 text-white rounded-2xl hover:bg-teal-700 transition-all shadow-lg hover:shadow-teal-500/20 text-2xl font-black">
+                  進入 Google Meet <ExternalLink className="w-5 h-5" />
+                </a>
+              </div>
+              <div className="bg-teal-50/50 dark:bg-teal-900/10 p-6 rounded-3xl border border-teal-100 dark:border-teal-900/20 flex flex-col justify-center">
+                <h4 className="text-teal-700 dark:text-teal-400 font-black text-xl mb-4 flex items-center gap-2">
+                  <Info className="w-6 h-6" /> 課程備註
+                </h4>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  本課程固定使用 Google Meet 進行，請點擊上方按鈕直接進入。建議使用 Chrome 瀏覽器以獲得最佳體驗。
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
+
         {/* Debate Course Card */}
         <Card className="overflow-hidden border-2 border-indigo-200 dark:border-indigo-900/30 hover:border-indigo-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
           <div className="h-3 bg-gradient-to-r from-indigo-600 to-blue-500 w-full" />
@@ -244,7 +285,7 @@ export default function PersonalPage() {
                   <span className="text-xs text-purple-600/60 uppercase tracking-widest mb-1">Email</span>
                   <span className="text-xl font-bold text-foreground">{_0xce("hu")}</span>
                 </div>
-                <div className="h-px bg-purple-200/50 dark:bg-purple-800/50" />
+                <div className="h-px bg-purple-200/50 dark:bg-orange-800/30" />
                 <div className="flex flex-col">
                   <span className="text-xs text-purple-600/60 uppercase tracking-widest mb-1">Password</span>
                   <span className="text-xl font-bold text-foreground">{_0xce("hp")}</span>
@@ -388,7 +429,7 @@ export default function PersonalPage() {
         }} className="text-muted-foreground hover:text-red-500 text-lg">
           退出個人系統
         </Button>
-        <p className="text-[10px] text-slate-400 uppercase tracking-widest">Secure Learning System v2.1</p>
+        <p className="text-[10px] text-slate-400 uppercase tracking-widest">Secure Learning System v2.2</p>
       </div>
     </div>
   );
