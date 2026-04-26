@@ -52,7 +52,7 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <Input 
             placeholder="搜尋課程、實驗室或工具..." 
-            className="pl-10 bg-card border-border"
+            className="pl-10 bg-card dark:bg-zinc-900 border-border/50 h-11 rounded-xl"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -61,7 +61,7 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
           <Button 
             variant={showSettings ? "default" : "outline"}
             onClick={() => setShowSettings(!showSettings)}
-            className="gap-2 shrink-0 border-border"
+            className="gap-2 shrink-0 border-border/50 h-11 rounded-xl font-bold"
           >
             <Sparkles className="w-4 h-4" /> AI 設定
           </Button>
@@ -74,8 +74,8 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
         <div className="space-y-6">
           <Tabs defaultValue="all" onValueChange={setActiveTab} className="w-full">
             <div className="flex items-center justify-between mb-4 overflow-x-auto">
-              <TabsList className="bg-card border border-border p-1 h-auto flex-nowrap md:flex-wrap">
-                <TabsTrigger value="all" className="gap-2 shrink-0">
+              <TabsList className="bg-card dark:bg-zinc-900 border border-border/50 p-1 h-auto flex-nowrap md:flex-wrap rounded-xl">
+                <TabsTrigger value="all" className="gap-2 shrink-0 rounded-lg font-bold data-[state=active]:bg-background">
                   <LayoutGrid className="w-4 h-4" /> 全部
                 </TabsTrigger>
                 {categories.filter(c => c.slug !== 'all').map(cat => (
