@@ -22,7 +22,11 @@ export const metadata: Metadata = {
   title: "自學指南 - 高品質資源導覽站",
   description: "精選 YouTube 頻道、部落格與工具網站，幫助自學者少走彎路。",
   icons: {
-    icon: '/favicon.svg',
+    icon: [
+      { url: '/favicon.svg?v=2', type: 'image/svg+xml' },
+    ],
+    shortcut: '/favicon.svg?v=2',
+    apple: '/favicon.svg?v=2',
   },
 };
 
