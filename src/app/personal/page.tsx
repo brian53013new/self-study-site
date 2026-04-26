@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History, BookOpen, Brain, Globe, MessageSquare, Microscope, Languages } from 'lucide-react';
+import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History, BookOpen, Brain, Globe, MessageSquare, Microscope, Languages, Calculator, Sigma } from 'lucide-react';
 
 export default function PersonalPage() {
   const [authorized, setAuthorized] = useState(false);
@@ -56,7 +56,8 @@ export default function PersonalPage() {
       "zid": "NTg0NDIyMTcw",
       "hu": "aW5lbGVkdUBnbWFpbC5jb20=",
       "hp": "QnJpYW41MzBAQA==",
-      "did": "ODQwIDU4OTkgOTg1OA=="
+      "did": "ODQwIDU4OTkgOTg1OA==",
+      "omid": "d2pnatF0cGlpZng="
     };
     return atob(data[_0x5] || "");
   };
@@ -106,8 +107,97 @@ export default function PersonalPage() {
       )}
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+        {/* Olympiad Math Card */}
+        <Card className="overflow-hidden border-2 border-red-200 dark:border-red-900/30 hover:border-red-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
+          <div className="h-3 bg-gradient-to-r from-red-600 to-rose-400 w-full" />
+          <div className="p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-4 bg-red-100 dark:bg-red-900/40 rounded-3xl group-hover:rotate-12 transition-transform">
+                <Sigma className="w-12 h-12 text-red-600 dark:text-red-400" />
+              </div>
+              <div>
+                <h2 className="text-4xl font-black text-foreground tracking-tight">奧數數學精英課</h2>
+                <p className="text-red-600 dark:text-red-400 font-bold uppercase tracking-widest text-sm mt-1">Olympiad Mathematics</p>
+              </div>
+            </div>
+            <p className="text-muted-foreground text-xl leading-relaxed mb-8 max-w-4xl">
+              專為挑戰數學競賽設計的高強度課程。涵蓋邏輯推理、幾何分析與複雜代數運算。
+            </p>
+            <div className="grid gap-8 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold flex items-center gap-2">
+                  <Video className="w-6 h-6 text-red-500" /> 線上教室入口
+                </h3>
+                <a href="https://meet.google.com/wjn-atpi-ifx" target="_blank" rel="noopener noreferrer" 
+                   className="flex items-center justify-center gap-3 w-full py-5 bg-red-600 text-white rounded-2xl hover:bg-red-700 transition-all shadow-lg hover:shadow-red-500/20 text-2xl font-black">
+                  進入 Google Meet <ExternalLink className="w-5 h-5" />
+                </a>
+                <div className="bg-muted/30 p-6 rounded-2xl border border-dashed border-muted-foreground/30 mt-4">
+                  {isUnlocked ? (
+                    <div className="space-y-1">
+                      <span className="text-xs text-red-600/60 uppercase block font-bold">Meeting Code</span>
+                      <span className="text-3xl font-black text-red-700 dark:text-red-300 tracking-tight">{_0xce("omid")}</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-4">
+                      <Lock className="w-6 h-6 text-muted-foreground/30 mb-2" />
+                      <p className="text-sm text-muted-foreground font-medium italic">解鎖以查看會議代碼</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="bg-red-50/50 dark:bg-red-900/10 p-6 rounded-3xl border border-red-100 dark:border-red-900/20 flex flex-col justify-center">
+                <h4 className="text-red-700 dark:text-red-400 font-black text-xl mb-4 flex items-center gap-2">
+                  <Info className="w-6 h-6" /> 課程提示
+                </h4>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  本課程透過 Google Meet 進行，若系統要求手動輸入代碼，請使用左側顯示的字串。
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Qing-Yuan Math Card */}
+        <Card className="overflow-hidden border-2 border-blue-200 dark:border-blue-900/30 hover:border-blue-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
+          <div className="h-3 bg-gradient-to-r from-blue-600 to-sky-400 w-full" />
+          <div className="p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-4 bg-blue-100 dark:bg-blue-900/40 rounded-3xl group-hover:rotate-12 transition-transform">
+                <Calculator className="w-12 h-12 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <h2 className="text-4xl font-black text-foreground tracking-tight">慶元數學課程</h2>
+                <p className="text-blue-600 dark:text-blue-400 font-bold uppercase tracking-widest text-sm mt-1">Qing-Yuan Mathematics</p>
+              </div>
+            </div>
+            <p className="text-muted-foreground text-xl leading-relaxed mb-8 max-w-4xl">
+              深耕數學基礎與進階觀念的系統化課程，旨在提升學生對數學邏輯的敏感度與解題效率。
+            </p>
+            <div className="grid gap-8 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold flex items-center gap-2">
+                  <Video className="w-6 h-6 text-blue-500" /> 線上教室入口
+                </h3>
+                <a href="https://meet.google.com/ddr-hdrt-eru" target="_blank" rel="noopener noreferrer" 
+                   className="flex items-center justify-center gap-3 w-full py-5 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/20 text-2xl font-black">
+                  進入 Google Meet <ExternalLink className="w-5 h-5" />
+                </a>
+              </div>
+              <div className="bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-3xl border border-blue-100 dark:border-blue-900/20 flex flex-col justify-center">
+                <h4 className="text-blue-700 dark:text-blue-400 font-black text-xl mb-4 flex items-center gap-2">
+                  <Info className="w-6 h-6" /> 課程備註
+                </h4>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  固定上課連結如上，請準時點擊按鈕加入視訊教室。
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
+
         {/* English Science Course Card */}
-        <Card className="overflow-hidden border-2 border-teal-200 dark:border-teal-900/30 hover:border-teal-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
+        <Card className="overflow-hidden border-2 border-teal-200 dark:border-teal-900/30 hover:border-teal-500/50 transition-all group shadow-sm hover:shadow-xl md:col-span-2">
           <div className="h-3 bg-gradient-to-r from-teal-500 to-cyan-400 w-full" />
           <div className="p-8">
             <div className="flex items-center gap-4 mb-6">
@@ -140,7 +230,7 @@ export default function PersonalPage() {
                   <Info className="w-6 h-6" /> 課程備註
                 </h4>
                 <p className="text-muted-foreground text-lg leading-relaxed">
-                  本課程固定使用 Google Meet 進行，請點擊上方按鈕直接進入。建議使用 Chrome 瀏覽器以獲得最佳體驗。
+                  本課程固定使用 Google Meet 進行。建議使用 Chrome 瀏覽器以獲得最佳體驗。
                 </p>
               </div>
             </div>
@@ -148,7 +238,7 @@ export default function PersonalPage() {
         </Card>
 
         {/* Debate Course Card */}
-        <Card className="overflow-hidden border-2 border-indigo-200 dark:border-indigo-900/30 hover:border-indigo-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
+        <Card className="overflow-hidden border-2 border-indigo-200 dark:border-indigo-900/30 hover:border-indigo-500/50 transition-all group shadow-sm hover:shadow-xl md:col-span-2">
           <div className="h-3 bg-gradient-to-r from-indigo-600 to-blue-500 w-full" />
           <div className="p-8">
             <div className="flex items-center gap-4 mb-6">
@@ -191,7 +281,7 @@ export default function PersonalPage() {
                   <Info className="w-6 h-6" /> 課程提示
                 </h4>
                 <p className="text-muted-foreground text-lg leading-relaxed">
-                  點擊藍色按鈕即可直接帶入密碼加入會議。若系統要求手動輸入 ID，請使用左側顯示的號碼。
+                  點擊藍色按鈕即可直接加入會議。若要求手動輸入 ID，請使用左側顯示的號碼。
                 </p>
               </div>
             </div>
@@ -429,7 +519,7 @@ export default function PersonalPage() {
         }} className="text-muted-foreground hover:text-red-500 text-lg">
           退出個人系統
         </Button>
-        <p className="text-[10px] text-slate-400 uppercase tracking-widest">Secure Learning System v2.2</p>
+        <p className="text-[10px] text-slate-400 uppercase tracking-widest">Secure Learning System v2.3</p>
       </div>
     </div>
   );
