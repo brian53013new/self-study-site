@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { 
   ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, 
   History, BookOpen, Brain, Globe, MessageSquare, Microscope, 
-  Languages, Calculator, Sigma, Phone, Binary, Music, Layout
+  Languages, Calculator, Sigma, Phone, Binary, Music, Layout, Sparkles
 } from 'lucide-react';
 
 export default function PersonalPage() {
