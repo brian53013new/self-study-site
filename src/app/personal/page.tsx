@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History, BookOpen, Brain, Globe, MessageSquare, Microscope, Languages, Calculator, Sigma, Clock, Phone } from 'lucide-react';
+import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History, BookOpen, Brain, Globe, MessageSquare, Microscope, Languages, Calculator, Sigma, Clock, Phone, Binary } from 'lucide-react';
 
 export default function PersonalPage() {
   const [authorized, setAuthorized] = useState(false);
@@ -107,6 +107,44 @@ export default function PersonalPage() {
       )}
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+        {/* Abacus Math Card */}
+        <Card className="overflow-hidden border-2 border-emerald-200 dark:border-emerald-900/30 hover:border-emerald-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
+          <div className="h-3 bg-gradient-to-r from-emerald-500 to-teal-400 w-full" />
+          <div className="p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-4 bg-emerald-100 dark:bg-emerald-900/40 rounded-3xl group-hover:rotate-12 transition-transform">
+                <Binary className="w-12 h-12 text-emerald-600 dark:text-emerald-400" />
+              </div>
+              <div>
+                <h2 className="text-4xl font-black text-foreground tracking-tight">珠心算課程</h2>
+                <p className="text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-widest text-sm mt-1">Abacus & Mental Arithmetic</p>
+              </div>
+            </div>
+            <p className="text-muted-foreground text-xl leading-relaxed mb-8 max-w-4xl">
+              培養極速運算能力與專注力的專業課程。透過珠算基礎訓練，強化大腦對數字的空間感與邏輯處理。
+            </p>
+            <div className="grid gap-8 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold flex items-center gap-2">
+                  <Video className="w-6 h-6 text-emerald-500" /> 線上教室入口
+                </h3>
+                <a href="https://meet.google.com/znu-vmds-fxi" target="_blank" rel="noopener noreferrer" 
+                   className="flex items-center justify-center gap-3 w-full py-5 bg-emerald-600 text-white rounded-2xl hover:bg-emerald-700 transition-all shadow-lg hover:shadow-emerald-500/20 text-2xl font-black">
+                  進入 Google Meet <ExternalLink className="w-5 h-5" />
+                </a>
+              </div>
+              <div className="bg-emerald-50/50 dark:bg-emerald-900/10 p-6 rounded-3xl border border-emerald-100 dark:border-emerald-900/20 flex flex-col justify-center">
+                <h4 className="text-emerald-700 dark:text-emerald-400 font-black text-xl mb-4 flex items-center gap-2">
+                  <Info className="w-6 h-6" /> 課程備註
+                </h4>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  點擊按鈕直接加入 Google Meet 教室。建議課前準備好您的算盤以進行同步練習。
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
+
         {/* Private Debate Card */}
         <Card className="overflow-hidden border-2 border-violet-200 dark:border-violet-900/30 hover:border-violet-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
           <div className="h-3 bg-gradient-to-r from-violet-600 to-indigo-400 w-full" />
@@ -289,57 +327,6 @@ export default function PersonalPage() {
                 </h4>
                 <p className="text-muted-foreground text-lg leading-relaxed">
                   本課程固定使用 Google Meet 進行。建議使用 Chrome 瀏覽器以獲得最佳體驗。
-                </p>
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        {/* Debate Course Card */}
-        <Card className="overflow-hidden border-2 border-indigo-200 dark:border-indigo-900/30 hover:border-indigo-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
-          <div className="h-3 bg-gradient-to-r from-indigo-600 to-blue-500 w-full" />
-          <div className="p-8">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="p-4 bg-indigo-100 dark:bg-indigo-900/40 rounded-3xl group-hover:rotate-12 transition-transform">
-                <MessageSquare className="w-12 h-12 text-indigo-600 dark:text-indigo-400" />
-              </div>
-              <div>
-                <h2 className="text-4xl font-black text-foreground tracking-tight">辯論專題課程 (NGF)</h2>
-                <p className="text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-widest text-sm mt-1">Nexus Global Forum Debate</p>
-              </div>
-            </div>
-            <p className="text-muted-foreground text-xl leading-relaxed mb-8 max-w-4xl">
-              由 Nexus Global Forum 主辦的專業辯論課程，旨在提升批判性思維與演講表達能力。
-            </p>
-            <div className="grid gap-8 md:grid-cols-2">
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold flex items-center gap-2">
-                  <Video className="w-6 h-6 text-indigo-500" /> 線上教室入口
-                </h3>
-                <a href="https://us06web.zoom.us/j/84058999858?pwd=KdtAd1z6bbROvcrFybThyu3ijODiDW.1" target="_blank" rel="noopener noreferrer" 
-                   className="flex items-center justify-center gap-3 w-full py-5 bg-indigo-600 text-white rounded-2xl hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-500/20 text-2xl font-black">
-                  進入 Zoom 會議 <ExternalLink className="w-5 h-5" />
-                </a>
-                <div className="bg-muted/30 p-6 rounded-2xl border border-dashed border-muted-foreground/30 mt-4">
-                  {isUnlocked ? (
-                    <div className="space-y-1">
-                      <span className="text-xs text-indigo-600/60 uppercase block font-bold">Meeting ID</span>
-                      <span className="text-3xl font-black text-indigo-700 dark:text-indigo-300 tracking-tight">{_0xce("did")}</span>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center py-4">
-                      <Lock className="w-6 h-6 text-muted-foreground/30 mb-2" />
-                      <p className="text-sm text-muted-foreground font-medium italic">解鎖以查看會議 ID</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="bg-indigo-50/50 dark:bg-indigo-900/10 p-6 rounded-3xl border border-indigo-100 dark:border-indigo-900/20 flex flex-col justify-center">
-                <h4 className="text-indigo-700 dark:text-indigo-400 font-black text-xl mb-4 flex items-center gap-2">
-                  <Info className="w-6 h-6" /> 課程提示
-                </h4>
-                <p className="text-muted-foreground text-lg leading-relaxed">
-                  點擊藍色按鈕即可直接加入會議。若要求手動輸入 ID，請使用左側顯示的號碼。
                 </p>
               </div>
             </div>
@@ -577,7 +564,7 @@ export default function PersonalPage() {
         }} className="text-muted-foreground hover:text-red-500 text-lg">
           退出個人系統
         </Button>
-        <p className="text-[10px] text-slate-400 uppercase tracking-widest">Secure Learning System v2.4</p>
+        <p className="text-[10px] text-slate-400 uppercase tracking-widest">Secure Learning System v2.5</p>
       </div>
     </div>
   );
