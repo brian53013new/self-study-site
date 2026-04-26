@@ -58,257 +58,269 @@ export default function PersonalPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-zinc-100 pb-32">
-      {/* 頂部導覽 */}
-      <div className="border-b border-white/5 bg-zinc-950/50 backdrop-blur-xl sticky top-0 z-40">
-        <div className="container mx-auto px-6 py-8 flex justify-between items-center">
-          <h1 className="text-3xl font-black tracking-tighter text-white">個人學習系統</h1>
+    <div className="min-h-screen bg-black text-white selection:bg-blue-500/30">
+      {/* 頂部 Header */}
+      <header className="border-b border-white/5 bg-zinc-950/80 backdrop-blur-2xl sticky top-0 z-40">
+        <div className="container mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <h1 className="text-4xl font-black tracking-tighter uppercase italic">Personal Dashboard</h1>
           {!isUnlocked ? (
-            <Button onClick={() => setShowPrompt(true)} className="bg-blue-600 hover:bg-blue-700 text-white font-black text-lg h-14 px-10 rounded-2xl shadow-lg shadow-blue-600/20">
-              <ShieldCheck className="w-6 h-6 mr-2" /> 解鎖資料
+            <Button onClick={() => setShowPrompt(true)} className="bg-white text-black hover:bg-zinc-200 px-12 py-7 text-xl rounded-full font-black shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+              <ShieldCheck className="w-6 h-6 mr-3" /> 解鎖資料
             </Button>
           ) : (
-            <Button variant="outline" onClick={() => setIsUnlocked(false)} className="text-red-500 border-red-500/20 hover:bg-red-500/10 h-14 px-10 rounded-2xl text-lg font-bold">
-              <Lock className="w-6 h-6 mr-2" /> 鎖定資料
+            <Button variant="outline" onClick={() => setIsUnlocked(false)} className="text-red-500 border-red-500/30 hover:bg-red-500/10 px-12 py-7 text-xl rounded-full font-black">
+              <Lock className="w-6 h-6 mr-3" /> 鎖定資料
             </Button>
           )}
         </div>
-      </div>
+      </header>
 
-      <div className="container mx-auto px-6 mt-16 max-w-6xl">
+      <div className="container mx-auto px-6 py-16 space-y-12 max-w-5xl">
         
-        {/* 驗證視窗 */}
+        {/* 驗證彈窗 */}
         {showPrompt && !isUnlocked && (
-          <div className="fixed inset-0 bg-black/90 backdrop-blur-xl z-50 flex items-center justify-center p-6">
-            <Card className="max-w-md w-full bg-zinc-900 border-white/10 rounded-[2.5rem] p-12 shadow-2xl">
-              <h3 className="text-3xl font-black mb-8 text-center text-white">身份驗證</h3>
+          <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-[100] flex items-center justify-center p-6">
+            <div className="max-w-md w-full bg-zinc-900 p-12 rounded-[2.5rem] border border-white/10 shadow-2xl">
+              <h3 className="text-3xl font-black mb-8 text-center">身份驗證</h3>
               <form onSubmit={handleUnlock} className="space-y-8">
                 <Input
                   type="password"
-                  placeholder="Enter Password"
+                  placeholder="Enter Code"
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
-                  className={`h-16 text-center text-2xl bg-black/50 border-white/10 text-white rounded-2xl focus:ring-4 focus:ring-blue-600/50 ${passError ? "border-red-500 animate-shake" : ""}`}
+                  className={`h-16 text-center text-3xl rounded-2xl bg-black/40 border-white/10 text-white ${passError ? "border-red-500 animate-shake" : ""}`}
                   autoFocus
                 />
                 <div className="flex gap-4">
-                  <Button type="button" variant="ghost" className="flex-1 h-14 text-xl text-zinc-500" onClick={() => setShowPrompt(false)}>取消</Button>
-                  <Button type="submit" className="flex-1 h-14 bg-blue-600 hover:bg-blue-700 text-white text-xl font-black rounded-2xl">確認</Button>
+                  <Button type="button" variant="ghost" className="flex-1 h-14 text-xl" onClick={() => setShowPrompt(false)}>取消</Button>
+                  <Button type="submit" className="flex-1 h-14 bg-blue-600 hover:bg-blue-700 text-white text-xl font-black rounded-2xl">驗證</Button>
                 </div>
               </form>
-            </Card>
+            </div>
           </div>
         )}
 
-        <div className="grid gap-10 grid-cols-1 md:grid-cols-2">
-          
-          {/* 1. SOP 會員系統 */}
-          <Card className="bg-zinc-950 border-rose-500/10 rounded-[2rem] p-10 hover:border-rose-500/30 transition-all shadow-xl group">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-rose-500/10 rounded-2xl group-hover:scale-110 transition-transform"><Music className="w-12 h-12 text-rose-500" /></div>
-              <h2 className="text-3xl font-black text-white">SOP 會員系統</h2>
+        {/* 1. SOP 會員登入 (大板塊) */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-rose-500/30 transition-all shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-rose-500/10 rounded-3xl"><ShieldCheck className="w-12 h-12 text-rose-500" /></div>
+              <div>
+                <h2 className="text-4xl font-black tracking-tight">SOP 會員登入系統</h2>
+                <p className="text-zinc-500 text-lg mt-1 font-medium">讚美之泉內部管理入口</p>
+              </div>
             </div>
-            <div className="space-y-6">
-              <Button className="w-full py-8 text-2xl font-black bg-rose-600 hover:bg-rose-700 text-white rounded-2xl shadow-lg shadow-rose-600/20" asChild>
-                <a href="https://members.sop.org/" target="_blank" rel="noopener noreferrer">進入系統 <ExternalLink className="ml-3" /></a>
-              </Button>
-              {isUnlocked ? (
-                <div className="p-6 bg-zinc-900 rounded-2xl border border-white/5 space-y-4 font-mono">
-                  <div className="flex flex-col"><span className="text-zinc-500 text-xs font-bold uppercase mb-1">Account Email</span><span className="text-xl text-white">{_0xce("su")}</span></div>
-                  <div className="h-px bg-white/5" />
-                  <div className="flex flex-col"><span className="text-zinc-500 text-xs font-bold uppercase mb-1">Password</span><span className="text-3xl font-black text-rose-500 tracking-tighter">{_0xce("sp")}</span></div>
-                </div>
-              ) : <div className="h-32 border-2 border-dashed border-white/5 rounded-2xl flex items-center justify-center text-zinc-700 font-bold italic">Credentials Encrypted</div>}
-            </div>
-          </Card>
-
-          {/* 2. 歷史 Zoom */}
-          <Card className="bg-zinc-950 border-orange-500/10 rounded-[2rem] p-10 hover:border-orange-500/30 transition-all shadow-xl group">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-orange-500/10 rounded-2xl group-hover:scale-110 transition-transform"><History className="w-12 h-12 text-orange-500" /></div>
-              <h2 className="text-3xl font-black text-white">歷史專題課程</h2>
-            </div>
-            <div className="space-y-6">
-              <Button className="w-full py-8 text-2xl font-black bg-orange-600 hover:bg-orange-700 text-white rounded-2xl" asChild>
-                <a href="https://us06web.zoom.us/j/5844221701?pwd=7fz5sBze027txb5MxbFYpC5g8cnN9a.1" target="_blank" rel="noopener noreferrer">進入 Zoom</a>
-              </Button>
+            <div className="flex flex-col items-end gap-4 w-full md:w-auto">
+              <a href="https://members.sop.org/" target="_blank" rel="noopener noreferrer" className="px-12 py-5 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl text-2xl font-black shadow-xl">進入系統</a>
               {isUnlocked && (
-                <div className="p-6 bg-zinc-900 rounded-2xl border border-white/5 text-center">
-                  <span className="text-zinc-500 text-xs font-bold uppercase block mb-2 tracking-widest">Meeting ID</span>
-                  <div className="text-5xl font-[1000] text-orange-500 font-mono tracking-tighter">{_0xce("zid")}</div>
+                <div className="p-6 bg-zinc-900 rounded-2xl border border-white/5 font-mono text-center">
+                  <div className="text-zinc-400 text-sm mb-1">ID: {_0xce("su")}</div>
+                  <div className="text-3xl font-black text-rose-500">{_0xce("sp")}</div>
                 </div>
               )}
             </div>
-          </Card>
+          </div>
+        </Card>
 
-          {/* 3. 歷史雲端 */}
-          <Card className="bg-zinc-950 border-emerald-500/10 rounded-[2rem] p-10 hover:border-emerald-500/30 transition-all shadow-xl group">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-emerald-500/10 rounded-2xl group-hover:scale-110 transition-transform"><Cloud className="w-12 h-12 text-emerald-500" /></div>
-              <h2 className="text-3xl font-black text-white">歷史教材雲端</h2>
+        {/* 2. 歷史 Zoom */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-orange-500/30 transition-all shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-orange-500/10 rounded-3xl"><History className="w-12 h-12 text-orange-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight uppercase">歷史專題 (Zoom)</h2>
+            </div>
+            <div className="flex flex-col items-center gap-4">
+              <a href="https://us06web.zoom.us/j/5844221701?pwd=7fz5sBze027txb5MxbFYpC5g8cnN9a.1" target="_blank" rel="noopener noreferrer" className="px-12 py-6 bg-orange-600 hover:bg-orange-700 text-white rounded-2xl text-3xl font-[1000]">進入 ZOOM</a>
+              {isUnlocked && <div className="text-4xl font-black text-orange-500 font-mono tracking-tighter bg-zinc-900 px-6 py-2 rounded-xl border border-white/5">{_0xce("zid")}</div>}
+            </div>
+          </div>
+        </Card>
+
+        {/* 3. 歷史雲端 */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-emerald-500/30 transition-all shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-emerald-500/10 rounded-3xl"><Cloud className="w-12 h-12 text-emerald-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight">歷史課教材雲端</h2>
             </div>
             {isUnlocked ? (
-              <a href="https://drive.google.com/drive/folders/1D3GTOwFTenNT1I1v-5SPNu3lD597mRsr" target="_blank" rel="noopener noreferrer" 
-                 className="flex items-center justify-center gap-4 py-8 bg-zinc-900 text-emerald-500 text-3xl font-black rounded-2xl border-2 border-emerald-500/20 hover:bg-zinc-800 transition-all">
-                開啟 Drive <ExternalLink className="w-8 h-8" />
-              </a>
-            ) : <div className="h-28 border-2 border-dashed border-white/5 rounded-2xl flex items-center justify-center text-zinc-700 font-bold italic">Access Locked</div>}
-          </Card>
+              <a href="https://drive.google.com/drive/folders/1D3GTOwFTenNT1I1v-5SPNu3lD597mRsr" target="_blank" rel="noopener noreferrer" className="px-12 py-5 bg-zinc-900 border-2 border-emerald-500/20 text-emerald-500 rounded-2xl text-2xl font-black hover:bg-zinc-800">開啟 Drive</a>
+            ) : <div className="text-zinc-800 text-2xl font-black italic">ENCRYPTED</div>}
+          </div>
+        </Card>
 
-          {/* 4. 辯論私教 */}
-          <Card className="bg-zinc-950 border-violet-500/10 rounded-[2rem] p-10 hover:border-violet-500/30 transition-all shadow-xl group">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-violet-500/10 rounded-2xl group-hover:scale-110 transition-transform"><MessageSquare className="w-12 h-12 text-violet-500" /></div>
-              <h2 className="text-3xl font-black text-white">辯論私教課程</h2>
+        {/* 4. 辯論私教 */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-violet-500/30 transition-all shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-violet-500/10 rounded-3xl"><MessageSquare className="w-12 h-12 text-violet-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight">辯論私教 (Brian)</h2>
             </div>
-            <div className="space-y-6">
-              <Button className="w-full py-8 text-2xl font-black bg-violet-600 hover:bg-violet-700 text-white rounded-2xl" asChild>
-                <a href="https://meet.google.com/wae-iqur-pqz" target="_blank" rel="noopener noreferrer">進入教室</a>
-              </Button>
+            <div className="flex flex-col items-center gap-4">
+              <a href="https://meet.google.com/wae-iqur-pqz" target="_blank" rel="noopener noreferrer" className="px-12 py-5 bg-violet-600 hover:bg-violet-700 text-white rounded-2xl text-2xl font-black">進入 MEET</a>
               {isUnlocked && (
-                <div className="p-6 bg-zinc-900 rounded-2xl border border-white/5 font-mono">
-                  <div className="text-zinc-500 text-xs mb-1 uppercase font-bold">Dial: {_0xce("dpu")}</div>
-                  <div className="text-4xl font-black text-violet-500 tracking-tighter">PIN: {_0xce("dpin")}</div>
+                <div className="p-4 bg-zinc-900 rounded-xl text-center">
+                  <div className="text-zinc-500 text-xs font-bold">{_0xce("dpu")}</div>
+                  <div className="text-2xl font-black text-violet-400">PIN: {_0xce("dpin")}</div>
                 </div>
               )}
             </div>
-          </Card>
+          </div>
+        </Card>
 
-          {/* 5. 辯論 NGF */}
-          <Card className="bg-zinc-950 border-indigo-500/10 rounded-[2rem] p-10 hover:border-indigo-500/30 transition-all shadow-xl group">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-indigo-500/10 rounded-2xl group-hover:scale-110 transition-transform"><Globe className="w-12 h-12 text-indigo-400" /></div>
-              <h2 className="text-3xl font-black text-white">辯論專題 (NGF)</h2>
+        {/* 5. 辯論 NGF */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-indigo-500/30 transition-all shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-indigo-500/10 rounded-3xl"><Globe className="w-12 h-12 text-indigo-400" /></div>
+              <h2 className="text-4xl font-black tracking-tight">辯論專題 (NGF)</h2>
             </div>
-            <a href="https://us06web.zoom.us/j/84058999858?pwd=KdtAd1z6bbROvcrFybThyu3ijODiDW.1" target="_blank" rel="noopener noreferrer" 
-               className="flex items-center justify-center py-8 bg-zinc-900 text-indigo-400 text-2xl font-black rounded-2xl border border-white/5 hover:bg-zinc-800">
-              OPEN ZOOM
-            </a>
-          </Card>
+            <a href="https://us06web.zoom.us/j/84058999858?pwd=KdtAd1z6bbROvcrFybThyu3ijODiDW.1" target="_blank" rel="noopener noreferrer" className="px-12 py-5 bg-zinc-900 border border-white/10 text-white rounded-2xl text-2xl font-black hover:bg-zinc-800">OPEN ZOOM</a>
+          </div>
+        </Card>
 
-          {/* 6. 珠心算 */}
-          <Card className="bg-zinc-950 border-emerald-500/10 rounded-[2rem] p-10 hover:border-emerald-500/30 transition-all shadow-xl group">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-emerald-500/10 rounded-2xl group-hover:scale-110 transition-transform"><Binary className="w-12 h-12 text-emerald-500" /></div>
-              <h2 className="text-3xl font-black text-white">珠心算課程</h2>
+        {/* 6. 珠心算 */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-emerald-500/30 transition-all shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-emerald-500/10 rounded-3xl"><Binary className="w-12 h-12 text-emerald-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight uppercase">Abacus Mind</h2>
             </div>
-            <Button className="w-full py-8 text-2xl font-black bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl" asChild>
-              <a href="https://meet.google.com/znu-vmds-fxi" target="_blank" rel="noopener noreferrer">進入 Meet</a>
-            </Button>
-          </Card>
+            <a href="https://meet.google.com/znu-vmds-fxi" target="_blank" rel="noopener noreferrer" className="px-12 py-5 bg-emerald-600 text-white rounded-2xl text-2xl font-black shadow-lg shadow-emerald-600/20">進入教室</a>
+          </div>
+        </Card>
 
-          {/* 7. 奧數精英 */}
-          <Card className="bg-zinc-950 border-red-500/10 rounded-[2rem] p-10 hover:border-red-500/30 transition-all shadow-xl group">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-red-500/10 rounded-2xl group-hover:scale-110 transition-transform"><Sigma className="w-12 h-12 text-red-500" /></div>
-              <h2 className="text-3xl font-black text-white">奧數精英課</h2>
+        {/* 7. 奧數精英 */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-red-500/30 transition-all shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-red-500/10 rounded-3xl"><Sigma className="w-12 h-12 text-red-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight">奧數數學精英課</h2>
             </div>
-            <div className="space-y-6">
-              <Button className="w-full py-8 text-2xl font-black bg-red-600 hover:bg-red-700 text-white rounded-2xl" asChild>
-                <a href="https://meet.google.com/wjn-atpi-ifx" target="_blank" rel="noopener noreferrer">進入教室</a>
-              </Button>
-              {isUnlocked && <div className="p-6 bg-zinc-900 rounded-2xl text-center text-4xl font-black text-red-500 font-mono tracking-tighter">Code: {_0xce("omid")}</div>}
+            <div className="flex flex-col items-center gap-4">
+              <a href="https://meet.google.com/wjn-atpi-ifx" target="_blank" rel="noopener noreferrer" className="px-12 py-5 bg-red-600 text-white rounded-2xl text-2xl font-black">進入 MEET</a>
+              {isUnlocked && <div className="text-3xl font-black text-red-500 font-mono bg-zinc-900 px-6 py-2 rounded-xl border border-white/5">{_0xce("omid")}</div>}
             </div>
-          </Card>
+          </div>
+        </Card>
 
-          {/* 8. 慶元數學 */}
-          <Card className="bg-zinc-950 border-blue-500/10 rounded-[2rem] p-10 hover:border-blue-500/30 transition-all shadow-xl group">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-blue-500/10 rounded-2xl group-hover:scale-110 transition-transform"><Calculator className="w-12 h-12 text-blue-500" /></div>
-              <h2 className="text-3xl font-black text-white">慶元數學課程</h2>
+        {/* 8. 慶元數學 */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-blue-500/30 transition-all shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-blue-500/10 rounded-3xl"><Calculator className="w-12 h-12 text-blue-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight">慶元數學課程</h2>
             </div>
-            <a href="https://meet.google.com/ddr-hdrt-eru" target="_blank" rel="noopener noreferrer" 
-               className="flex items-center justify-center py-8 bg-blue-600 text-white text-2xl font-black rounded-2xl hover:bg-blue-700">進入 Google Meet</a>
-          </Card>
+            <a href="https://meet.google.com/ddr-hdrt-eru" target="_blank" rel="noopener noreferrer" className="px-12 py-5 bg-blue-600 text-white rounded-2xl text-2xl font-black">進入教室</a>
+          </div>
+        </Card>
 
-          {/* 9. 英文理化 */}
-          <Card className="bg-zinc-950 border-teal-500/10 rounded-[2rem] p-10 hover:border-teal-500/30 transition-all shadow-xl group">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-teal-500/10 rounded-2xl group-hover:scale-110 transition-transform"><Microscope className="w-12 h-12 text-teal-500" /></div>
-              <h2 className="text-3xl font-black text-white">英文理化專題</h2>
+        {/* 9. 英文理化 */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-teal-500/30 transition-all shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-teal-500/10 rounded-3xl"><Microscope className="w-12 h-12 text-teal-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight">英文理化專題</h2>
             </div>
-            <a href="https://meet.google.com/fzm-ecmz-api" target="_blank" rel="noopener noreferrer" 
-               className="flex items-center justify-center py-8 bg-teal-600 text-white text-2xl font-black rounded-2xl hover:bg-teal-700 shadow-lg shadow-teal-600/10">開啟 Meet 連結</a>
-          </Card>
+            <a href="https://meet.google.com/fzm-ecmz-api" target="_blank" rel="noopener noreferrer" className="px-12 py-5 bg-teal-600 text-white rounded-2xl text-2xl font-black shadow-lg shadow-teal-600/20">開啟連結</a>
+          </div>
+        </Card>
 
-          {/* 10. Henry 讀書會 */}
-          <Card className="bg-zinc-950 border-purple-500/10 rounded-[2rem] p-10 hover:border-purple-500/30 transition-all shadow-xl group">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-purple-500/10 rounded-2xl group-hover:scale-110 transition-transform"><BookOpen className="w-12 h-12 text-purple-500" /></div>
-              <h2 className="text-3xl font-black text-white">Henry 讀書會</h2>
+        {/* 10. Henry 讀書會 */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-purple-500/30 transition-all shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-purple-500/10 rounded-3xl"><BookOpen className="w-12 h-12 text-purple-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight">Henry 讀書會</h2>
             </div>
-            <div className="space-y-6">
-              <Button className="w-full py-8 text-2xl font-black bg-purple-600 hover:bg-purple-700 text-white rounded-2xl" asChild>
-                <a href="https://course.henrypedia.com/login" target="_blank" rel="noopener noreferrer">登入頁面</a>
-              </Button>
+            <div className="flex flex-col items-end gap-4 w-full md:w-auto">
+              <a href="https://course.henrypedia.com/login" target="_blank" rel="noopener noreferrer" className="px-10 py-4 bg-purple-600 text-white rounded-xl text-xl font-bold">登入頁面</a>
               {isUnlocked && (
-                <div className="p-6 bg-zinc-900 rounded-2xl border border-white/5 space-y-2 font-mono text-center">
-                  <div className="text-zinc-500 text-sm">ID: {_0xce("hu")}</div>
-                  <div className="text-2xl font-black text-purple-400">PW: {_0xce("hp")}</div>
+                <div className="p-5 bg-zinc-900 rounded-xl border border-white/5 font-mono text-right">
+                  <div className="text-zinc-500 text-xs">{_0xce("hu")}</div>
+                  <div className="text-xl font-black text-purple-400">{_0xce("hp")}</div>
                 </div>
               )}
             </div>
-          </Card>
+          </div>
+        </Card>
 
-          {/* 11. Hour of AI */}
-          <Card className="bg-zinc-950 border-white/5 rounded-[2rem] p-10 flex flex-col justify-between items-center text-center">
-            <div className="p-6 bg-cyan-500/10 rounded-2xl mb-6"><Brain className="w-16 h-16 text-cyan-500" /></div>
-            <h2 className="text-3xl font-black text-white mb-8">Hour of AI</h2>
-            <a href="https://code.org/en-US/hour-of-ai" target="_blank" rel="noopener noreferrer" className="text-cyan-400 text-xl font-bold hover:underline flex items-center gap-2">START STUDY <ExternalLink /></a>
-          </Card>
-
-          {/* 12. Kyros AI */}
-          <Card className="bg-zinc-950 border-white/5 rounded-[2rem] p-10 flex flex-col justify-between items-center text-center">
-            <div className="p-6 bg-cyan-500/10 rounded-2xl mb-6"><Sparkles className="w-16 h-16 text-cyan-500" /></div>
-            <h2 className="text-3xl font-black text-white mb-8 leading-tight">Kyros AI Special Program</h2>
-            <a href="https://www.kyros.ai/special-program-detail/22130" target="_blank" rel="noopener noreferrer" className="text-cyan-400 text-xl font-bold hover:underline flex items-center gap-2">OPEN PROGRAM <ExternalLink /></a>
-          </Card>
-
-          {/* 13. EDX Global */}
-          <Card className="bg-zinc-950 border-white/5 rounded-[2rem] p-10 flex flex-col justify-between items-center text-center">
-            <div className="p-6 bg-red-600/10 rounded-2xl mb-6"><Globe className="w-16 h-16 text-red-600" /></div>
-            <h2 className="text-3xl font-black text-white mb-8">EDX Global Learning</h2>
-            <a href="https://www.edx.org/" target="_blank" rel="noopener noreferrer" className="bg-red-600 text-white px-10 py-4 rounded-xl font-black text-xl hover:bg-red-700">VISIT SITE</a>
-          </Card>
-
-          {/* 14. Funday 英語 */}
-          <Card className="bg-zinc-950 border-blue-500/10 rounded-[2rem] p-10 hover:border-blue-500/30 transition-all group shadow-xl">
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-blue-500/10 rounded-2xl group-hover:scale-110 transition-transform"><GraduationCap className="w-12 h-12 text-blue-500" /></div>
-              <h2 className="text-3xl font-black text-white">Funday 英語學習</h2>
+        {/* 11. Hour of AI */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-cyan-500/30 shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-cyan-500/10 rounded-3xl"><Brain className="w-12 h-12 text-cyan-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight text-cyan-400">Hour of AI</h2>
             </div>
-            <div className="space-y-6">
-              <a href="https://funday.asia/" target="_blank" rel="noopener noreferrer" className="block w-full py-6 bg-blue-600 hover:bg-blue-700 text-white text-center font-black text-2xl rounded-2xl">前往平台</a>
+            <a href="https://code.org/en-US/hour-of-ai" target="_blank" rel="noopener noreferrer" className="text-white bg-zinc-900 px-10 py-5 rounded-2xl text-xl font-black hover:bg-zinc-800 border border-white/5 flex items-center gap-3">START <ExternalLink /></a>
+          </div>
+        </Card>
+
+        {/* 12. Kyros AI */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-cyan-500/30 shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-cyan-500/10 rounded-3xl"><Sparkles className="w-12 h-12 text-cyan-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight text-cyan-400">Kyros AI Program</h2>
+            </div>
+            <a href="https://www.kyros.ai/special-program-detail/22130" target="_blank" rel="noopener noreferrer" className="text-white bg-zinc-900 px-10 py-5 rounded-2xl text-xl font-black hover:bg-zinc-800 border border-white/5 flex items-center gap-3">OPEN <ExternalLink /></a>
+          </div>
+        </Card>
+
+        {/* 13. EDX Global */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-red-600/30 shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-red-600/10 rounded-3xl"><Globe className="w-12 h-12 text-red-600" /></div>
+              <h2 className="text-4xl font-black tracking-tight">EDX 全球課堂</h2>
+            </div>
+            <a href="https://www.edx.org/" target="_blank" rel="noopener noreferrer" className="px-12 py-5 bg-red-600 text-white rounded-2xl text-2xl font-black">VISIT EDX</a>
+          </div>
+        </Card>
+
+        {/* 14. Funday 英語 */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-blue-500/30 shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-blue-500/10 rounded-3xl"><GraduationCap className="w-12 h-12 text-blue-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight uppercase">Funday</h2>
+            </div>
+            <div className="flex flex-col items-end gap-4 w-full md:w-auto">
+              <a href="https://funday.asia/" target="_blank" rel="noopener noreferrer" className="px-12 py-5 bg-blue-600 text-white rounded-2xl text-2xl font-black">前往平台</a>
               {isUnlocked && (
-                <div className="p-6 bg-zinc-900 rounded-2xl font-mono text-center space-y-2">
-                  <div className="text-zinc-500 text-sm">{_0xce("u")}</div>
-                  <div className="text-3xl font-black text-blue-400 tracking-tighter">{_0xce("p")}</div>
+                <div className="p-5 bg-zinc-900 rounded-xl border border-white/5 font-mono text-right">
+                  <div className="text-zinc-500 text-xs">{_0xce("u")}</div>
+                  <div className="text-2xl font-black text-blue-400">{_0xce("p")}</div>
                 </div>
               )}
             </div>
-          </Card>
+          </div>
+        </Card>
 
-          {/* 15. SOP 官方網站 */}
-          <Card className="bg-zinc-950 border-rose-500/10 rounded-[2rem] p-10 hover:border-rose-500/30 transition-all flex flex-col items-center text-center">
-            <div className="p-6 bg-rose-500/10 rounded-2xl mb-6"><Layout className="w-16 h-16 text-rose-500" /></div>
-            <h2 className="text-3xl font-black text-white mb-8">SOP 官方網站</h2>
-            <a href="https://www.sop.org/" target="_blank" rel="noopener noreferrer" className="text-rose-500 text-xl font-bold hover:underline">BROWSE WEBSITE</a>
-          </Card>
+        {/* 15. SOP 官網 */}
+        <Card className="bg-zinc-950 border-white/5 rounded-[2.5rem] p-12 hover:border-rose-500/30 shadow-2xl">
+          <div className="flex flex-col md:flex-row justify-between gap-10 items-center">
+            <div className="flex items-center gap-8">
+              <div className="p-6 bg-rose-500/10 rounded-3xl"><Layout className="w-12 h-12 text-rose-500" /></div>
+              <h2 className="text-4xl font-black tracking-tight">讚美之泉官方網站</h2>
+            </div>
+            <a href="https://www.sop.org/" target="_blank" rel="noopener noreferrer" className="text-rose-500 text-2xl font-black hover:underline">BROWSE SITE</a>
+          </div>
+        </Card>
 
+        {/* 退出 */}
+        <div className="pt-20 pb-10 flex justify-center">
+          <button 
+            onClick={() => {
+              sessionStorage.removeItem('personal_access');
+              router.push('/');
+            }} 
+            className="text-zinc-800 hover:text-red-500 font-black text-2xl tracking-[0.3em] transition-all uppercase"
+          >
+            Terminal
+          </button>
         </div>
       </div>
-
-      <footer className="mt-40 py-20 border-t border-white/5 text-center">
-        <button 
-          onClick={() => {
-            sessionStorage.removeItem('personal_access');
-            router.push('/');
-          }} 
-          className="text-zinc-800 hover:text-red-500 font-black transition-all text-2xl tracking-[0.2em] uppercase"
-        >
-          Logout System
-        </button>
-      </footer>
     </div>
   );
 }
