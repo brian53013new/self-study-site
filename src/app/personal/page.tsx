@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History, BookOpen, Brain, Globe, MessageSquare, Microscope, Languages, Calculator, Sigma } from 'lucide-react';
+import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History, BookOpen, Brain, Globe, MessageSquare, Microscope, Languages, Calculator, Sigma, Clock, Phone } from 'lucide-react';
 
 export default function PersonalPage() {
   const [authorized, setAuthorized] = useState(false);
@@ -57,7 +57,7 @@ export default function PersonalPage() {
       "hu": "aW5lbGVkdUBnbWFpbC5jb20=",
       "hp": "QnJpYW41MzBAQA==",
       "did": "ODQwIDU4OTkgOTg1OA==",
-      "omid": "d2pnatF0cGlpZng="
+      "omid": "d2pnatF0cGlpZng=","dpu": "K1UpIDEgMzE3LTk2MS0wNjk4","dpin": "MzI0IDA0OSAzODUj"
     };
     return atob(data[_0x5] || "");
   };
@@ -107,6 +107,64 @@ export default function PersonalPage() {
       )}
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+        {/* Private Debate Card */}
+        <Card className="overflow-hidden border-2 border-violet-200 dark:border-violet-900/30 hover:border-violet-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
+          <div className="h-3 bg-gradient-to-r from-violet-600 to-indigo-400 w-full" />
+          <div className="p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-4 bg-violet-100 dark:bg-violet-900/40 rounded-3xl group-hover:rotate-12 transition-transform">
+                <MessageSquare className="w-12 h-12 text-violet-600 dark:text-violet-400" />
+              </div>
+              <div>
+                <h2 className="text-4xl font-black text-foreground tracking-tight">辯論私教課程</h2>
+                <p className="text-violet-600 dark:text-violet-400 font-bold uppercase tracking-widest text-sm mt-1">Brian's Private Debate Class</p>
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap gap-4 mb-8">
+              <div className="flex items-center gap-2 px-4 py-2 bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300 rounded-full font-bold">
+                <Clock className="w-5 h-5" /> 4/27 (一) 20:00 - 21:00
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full font-medium">
+                <Globe className="w-5 h-5" /> Asia/Taipei
+              </div>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold flex items-center gap-2">
+                  <Video className="w-6 h-6 text-violet-500" /> 線上教室入口
+                </h3>
+                <a href="https://meet.google.com/wae-iqur-pqz" target="_blank" rel="noopener noreferrer" 
+                   className="flex items-center justify-center gap-3 w-full py-5 bg-violet-600 text-white rounded-2xl hover:bg-violet-700 transition-all shadow-lg hover:shadow-violet-500/20 text-2xl font-black">
+                  進入 Google Meet <ExternalLink className="w-5 h-5" />
+                </a>
+              </div>
+              
+              <div className="bg-muted/30 p-6 rounded-3xl border border-dashed border-muted-foreground/30">
+                {isUnlocked ? (
+                  <div className="space-y-4 font-mono">
+                    <div>
+                      <span className="text-xs text-violet-600/60 uppercase block mb-1 font-bold flex items-center gap-1"><Phone className="w-3 h-3" /> Dial-in (US)</span>
+                      <span className="text-lg font-bold text-foreground">{_0xce("dpu")}</span>
+                    </div>
+                    <div className="h-px bg-border" />
+                    <div>
+                      <span className="text-xs text-violet-600/60 uppercase block mb-1 font-bold">PIN Code</span>
+                      <span className="text-2xl font-black text-violet-700 dark:text-violet-300 tracking-tight">{_0xce("dpin")}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full py-4">
+                    <Lock className="w-8 h-8 text-muted-foreground/30 mb-2" />
+                    <p className="text-sm text-muted-foreground font-medium italic text-center px-4">解鎖以查看撥號號碼與 PIN 碼</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </Card>
+
         {/* Olympiad Math Card */}
         <Card className="overflow-hidden border-2 border-red-200 dark:border-red-900/30 hover:border-red-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
           <div className="h-3 bg-gradient-to-r from-red-600 to-rose-400 w-full" />
@@ -238,7 +296,7 @@ export default function PersonalPage() {
         </Card>
 
         {/* Debate Course Card */}
-        <Card className="overflow-hidden border-2 border-indigo-200 dark:border-indigo-900/30 hover:border-indigo-500/50 transition-all group shadow-sm hover:shadow-xl md:col-span-2">
+        <Card className="overflow-hidden border-2 border-indigo-200 dark:border-indigo-900/30 hover:border-indigo-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
           <div className="h-3 bg-gradient-to-r from-indigo-600 to-blue-500 w-full" />
           <div className="p-8">
             <div className="flex items-center gap-4 mb-6">
@@ -519,7 +577,7 @@ export default function PersonalPage() {
         }} className="text-muted-foreground hover:text-red-500 text-lg">
           退出個人系統
         </Button>
-        <p className="text-[10px] text-slate-400 uppercase tracking-widest">Secure Learning System v2.3</p>
+        <p className="text-[10px] text-slate-400 uppercase tracking-widest">Secure Learning System v2.4</p>
       </div>
     </div>
   );
