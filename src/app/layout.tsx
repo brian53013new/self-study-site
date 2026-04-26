@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { Compass, Map, BookOpen } from "lucide-react";
+import { AdminProvider } from "@/lib/AdminContext";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import { Navbar } from "@/components/Navbar";
 import { AdminTrigger } from "@/components/AdminTrigger";
