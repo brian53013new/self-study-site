@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History, BookOpen, Brain, Globe } from 'lucide-react';
+import { ExternalLink, Lock, GraduationCap, ShieldCheck, Video, Cloud, Info, History, BookOpen, Brain, Globe, MessageSquare } from 'lucide-react';
 
 export default function PersonalPage() {
   const [authorized, setAuthorized] = useState(false);
@@ -55,7 +55,8 @@ export default function PersonalPage() {
       "sp": "YnJpYW4uYmliaWxhYnU=",
       "zid": "NTg0NDIyMTcw",
       "hu": "aW5lbGVkdUBnbWFpbC5jb20=",
-      "hp": "QnJpYW41MzBAQA=="
+      "hp": "QnJpYW41MzBAQA==",
+      "did": "ODQwIDU4OTkgOTg1OA=="
     };
     return atob(data[_0x5] || "");
   };
@@ -105,73 +106,116 @@ export default function PersonalPage() {
       )}
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+        {/* Debate Course Card */}
+        <Card className="overflow-hidden border-2 border-indigo-200 dark:border-indigo-900/30 hover:border-indigo-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
+          <div className="h-3 bg-gradient-to-r from-indigo-600 to-blue-500 w-full" />
+          <div className="p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-4 bg-indigo-100 dark:bg-indigo-900/40 rounded-3xl group-hover:rotate-12 transition-transform">
+                <MessageSquare className="w-12 h-12 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <div>
+                <h2 className="text-4xl font-black text-foreground tracking-tight">辯論專題課程 (NGF)</h2>
+                <p className="text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-widest text-sm mt-1">Nexus Global Forum Debate</p>
+              </div>
+            </div>
+            <p className="text-muted-foreground text-xl leading-relaxed mb-8 max-w-4xl">
+              由 Nexus Global Forum 主辦的專業辯論課程，旨在提升批判性思維與演講表達能力。
+            </p>
+            <div className="grid gap-8 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold flex items-center gap-2">
+                  <Video className="w-6 h-6 text-indigo-500" /> 線上教室入口
+                </h3>
+                <a href="https://us06web.zoom.us/j/84058999858?pwd=KdtAd1z6bbROvcrFybThyu3ijODiDW.1" target="_blank" rel="noopener noreferrer" 
+                   className="flex items-center justify-center gap-3 w-full py-5 bg-indigo-600 text-white rounded-2xl hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-500/20 text-2xl font-black">
+                  進入 Zoom 會議 <ExternalLink className="w-5 h-5" />
+                </a>
+                <div className="bg-muted/30 p-6 rounded-2xl border border-dashed border-muted-foreground/30 mt-4">
+                  {isUnlocked ? (
+                    <div className="space-y-1">
+                      <span className="text-xs text-indigo-600/60 uppercase block font-bold">Meeting ID</span>
+                      <span className="text-3xl font-black text-indigo-700 dark:text-indigo-300 tracking-tight">{_0xce("did")}</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-4">
+                      <Lock className="w-6 h-6 text-muted-foreground/30 mb-2" />
+                      <p className="text-sm text-muted-foreground font-medium italic">解鎖以查看會議 ID</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="bg-indigo-50/50 dark:bg-indigo-900/10 p-6 rounded-3xl border border-indigo-100 dark:border-indigo-900/20 flex flex-col justify-center">
+                <h4 className="text-indigo-700 dark:text-indigo-400 font-black text-xl mb-4 flex items-center gap-2">
+                  <Info className="w-6 h-6" /> 課程提示
+                </h4>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  點擊藍色按鈕即可直接帶入密碼加入會議。若系統要求手動輸入 ID，請使用左側顯示的號碼。
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
+
         {/* History Course Large Card */}
         <Card className="overflow-hidden border-2 border-orange-200 dark:border-orange-900/30 hover:border-orange-500/50 transition-all group shadow-md hover:shadow-2xl md:col-span-2">
           <div className="h-3 bg-gradient-to-r from-orange-500 to-amber-400 w-full" />
-          <div className="flex flex-col">
-            <div className="p-8">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="p-4 bg-orange-100 dark:bg-orange-900/40 rounded-3xl group-hover:rotate-12 transition-transform">
-                  <History className="w-12 h-12 text-orange-600 dark:text-orange-400" />
-                </div>
-                <div>
-                  <h2 className="text-4xl font-black text-foreground tracking-tight">歷史專題課程</h2>
-                  <p className="text-orange-600 dark:text-orange-400 font-bold uppercase tracking-widest text-sm mt-1">History Specialist Program</p>
+          <div className="p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-4 bg-orange-100 dark:bg-orange-900/40 rounded-3xl group-hover:rotate-12 transition-transform">
+                <History className="w-12 h-12 text-orange-600 dark:text-orange-400" />
+              </div>
+              <div>
+                <h2 className="text-4xl font-black text-foreground tracking-tight">歷史專題課程</h2>
+                <p className="text-orange-600 dark:text-orange-400 font-bold uppercase tracking-widest text-sm mt-1">History Specialist Program</p>
+              </div>
+            </div>
+            <p className="text-muted-foreground text-xl leading-relaxed mb-8 max-w-4xl">
+              專注於歷史脈絡解析與深度專題討論。所有資源已整合於下方，解鎖後即可查看會議 ID 與雲端附帶資源。
+            </p>
+            <div className="grid gap-8 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold flex items-center gap-2">
+                  <Video className="w-6 h-6 text-orange-500" /> 線上教室入口
+                </h3>
+                <a href="https://us06web.zoom.us/j/5844221701?pwd=7fz5sBze027txb5MxbFYpC5g8cnN9a.1" target="_blank" rel="noopener noreferrer" 
+                   className="flex items-center justify-center gap-3 w-full py-5 bg-orange-600 text-white rounded-2xl hover:bg-orange-700 transition-all shadow-lg hover:shadow-orange-500/20 text-2xl font-black">
+                  進入 Zoom 會議 <ExternalLink className="w-5 h-5" />
+                </a>
+                <div className="bg-muted/30 p-6 rounded-2xl border border-dashed border-muted-foreground/30 mt-4">
+                  {isUnlocked ? (
+                    <div className="space-y-4 font-mono">
+                      <div>
+                        <span className="text-xs text-orange-600/60 uppercase block mb-1 font-bold">Meeting ID</span>
+                        <span className="text-3xl font-black text-orange-700 dark:text-orange-300 tracking-tight">{_0xce("zid")}</span>
+                      </div>
+                      <div className="h-px bg-orange-200 dark:bg-orange-800/30" />
+                      <div>
+                        <span className="text-xs text-emerald-600/60 uppercase block mb-2 font-bold flex items-center gap-1">
+                          <Cloud className="w-3 h-3" /> 附帶資源 (歷史課雲端)
+                        </span>
+                        <a href="https://drive.google.com/drive/folders/1D3GTOwFTenNT1I1v-5SPNu3lD597mRsr" target="_blank" rel="noopener noreferrer"
+                           className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-2 text-lg">
+                          開啟 Google Drive <ExternalLink className="w-4 h-4" />
+                        </a>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-4">
+                      <Lock className="w-6 h-6 text-muted-foreground/30 mb-2" />
+                      <p className="text-sm text-muted-foreground font-medium italic">解鎖以查看會議 ID 與附帶資源</p>
+                    </div>
+                  )}
                 </div>
               </div>
-              
-              <p className="text-muted-foreground text-xl leading-relaxed mb-8 max-w-4xl">
-                專注於歷史脈絡解析與深度專題討論。所有資源已整合於下方，解鎖後即可查看會議 ID 與雲端附帶資源。
-              </p>
-
-              <div className="grid gap-8 md:grid-cols-2">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-xl font-bold flex items-center gap-2">
-                      <Video className="w-6 h-6 text-orange-500" /> 線上教室入口
-                    </h3>
-                  </div>
-                  <a href="https://us06web.zoom.us/j/5844221701?pwd=7fz5sBze027txb5MxbFYpC5g8cnN9a.1" target="_blank" rel="noopener noreferrer" 
-                     className="flex items-center justify-center gap-3 w-full py-5 bg-orange-600 text-white rounded-2xl hover:bg-orange-700 transition-all shadow-lg hover:shadow-orange-500/20 text-2xl font-black">
-                    進入 Zoom 會議 <ExternalLink className="w-5 h-5" />
-                  </a>
-                  
-                  <div className="bg-muted/30 p-6 rounded-2xl border border-dashed border-muted-foreground/30 mt-4">
-                    {isUnlocked ? (
-                      <div className="space-y-4 font-mono">
-                        <div>
-                          <span className="text-xs text-orange-600/60 uppercase block mb-1 font-bold">Meeting ID</span>
-                          <span className="text-3xl font-black text-orange-700 dark:text-orange-300 tracking-tight">{_0xce("zid")}</span>
-                        </div>
-                        <div className="h-px bg-orange-200 dark:bg-orange-800/30" />
-                        <div>
-                          <span className="text-xs text-emerald-600/60 uppercase block mb-2 font-bold flex items-center gap-1">
-                            <Cloud className="w-3 h-3" /> 附帶資源 (歷史課雲端)
-                          </span>
-                          <a href="https://drive.google.com/drive/folders/1D3GTOwFTenNT1I1v-5SPNu3lD597mRsr" target="_blank" rel="noopener noreferrer"
-                             className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-2 text-lg">
-                            開啟 Google Drive <ExternalLink className="w-4 h-4" />
-                          </a>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center justify-center py-4">
-                        <Lock className="w-6 h-6 text-muted-foreground/30 mb-2" />
-                        <p className="text-sm text-muted-foreground font-medium italic">解鎖以查看會議 ID 與附帶資源</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="bg-orange-50/50 dark:bg-orange-900/10 p-6 rounded-3xl border border-orange-100 dark:border-orange-900/20 flex flex-col justify-center">
-                  <h4 className="text-orange-700 dark:text-orange-400 font-black text-xl mb-4 flex items-center gap-2">
-                    <Info className="w-6 h-6" /> 課程備註
-                  </h4>
-                  <ul className="space-y-3 text-muted-foreground text-lg leading-relaxed">
-                    <li className="flex gap-2"><span>•</span> 雲端教材連結已整合於左側 ID 欄位下方。</li>
-                    <li className="flex gap-2"><span>•</span> 若要求 ID，請解鎖後複製號碼。</li>
-                  </ul>
-                </div>
+              <div className="bg-orange-50/50 dark:bg-orange-900/10 p-6 rounded-3xl border border-orange-100 dark:border-orange-900/20 flex flex-col justify-center">
+                <h4 className="text-orange-700 dark:text-orange-400 font-black text-xl mb-4 flex items-center gap-2">
+                  <Info className="w-6 h-6" /> 課程備註
+                </h4>
+                <ul className="space-y-3 text-muted-foreground text-lg leading-relaxed">
+                  <li>• 雲端教材連結已整合於左側 ID 欄位下方。</li>
+                  <li>• 若要求 ID，請解鎖後複製號碼。</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -194,7 +238,6 @@ export default function PersonalPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground text-lg mb-8">專屬學習社群，包含精選書單、讀書筆記與深度討論內容。</p>
-            
             {isUnlocked ? (
               <div className="space-y-4 bg-purple-50/50 dark:bg-purple-900/10 p-6 rounded-3xl border border-purple-100 dark:border-purple-900/30 font-mono">
                 <div className="flex flex-col">
@@ -257,7 +300,6 @@ export default function PersonalPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground text-lg mb-8">主要的英語線上課程平台，包含聽力、閱讀與一對一教學。</p>
-            
             {isUnlocked ? (
               <div className="space-y-4 bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-3xl border border-blue-100 dark:border-blue-900/30 font-mono">
                 <div className="flex flex-col">
@@ -314,7 +356,6 @@ export default function PersonalPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground text-lg mb-8">專業學習會員系統，提供進階課程資源與會員專屬服務。</p>
-            
             {isUnlocked ? (
               <div className="space-y-4 bg-slate-50 dark:bg-slate-900/10 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 font-mono">
                 <div className="flex flex-col">
