@@ -8,6 +8,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ResourceCard } from "./ResourceCard";
 import { VOCAB_DATA } from "@/lib/vocab-data";
 import { StudySettings } from "./StudySettings";
+import { useLanguage } from '@/lib/LanguageContext';
 
 interface ClientPageContentProps {
   initialResources: any[];
@@ -15,9 +16,27 @@ interface ClientPageContentProps {
 }
 
 export const ClientPageContent = ({ initialResources, categories }: ClientPageContentProps) => {
+  const { lang } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('all');
   const [showSettings, setShowSettings] = useState(false);
+
+  const t = {
+    'zh-TW': {
+      search: '搜尋課程、實驗室或工具...',
+      aiSettings: 'AI 設定',
+      all: '全部',
+      favorites: '我的收藏',
+      noResults: '找不到相關資源，請嘗試其他關鍵字或分類。'
+    },
+    'en': {
+      search: 'Search courses, labs or tools...',
+      aiSettings: 'AI Settings',
+      all: 'All',
+      favorites: 'Favorites',
+      noResults: 'No resources found. Try other keywords or categories.'
+    }
+  }[lang];
 
   const filteredResources = useMemo(() => {
     let result = initialResources;
@@ -51,7 +70,7 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
         <div className="relative w-full md:max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <Input 
-            placeholder="搜尋課程、實驗室或工具..." 
+            placeholder={t.search} 
             className="pl-10 bg-card dark:bg-zinc-900 border-border/50 h-11 rounded-xl"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -63,7 +82,7 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
             onClick={() => setShowSettings(!showSettings)}
             className="gap-2 shrink-0 border-border/50 h-11 rounded-xl font-bold"
           >
-            <Sparkles className="w-4 h-4" /> AI 設定
+            <Sparkles className="w-4 h-4" /> {t.aiSettings}
           </Button>
         </div>
       </div>
@@ -76,15 +95,15 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
             <div className="flex items-center justify-between mb-4 overflow-x-auto">
               <TabsList className="bg-card dark:bg-zinc-900 border border-border/50 p-1 h-auto flex-nowrap md:flex-wrap rounded-xl">
                 <TabsTrigger value="all" className="gap-2 shrink-0 rounded-lg font-bold data-[state=active]:bg-background">
-                  <LayoutGrid className="w-4 h-4" /> 全部
+                  <LayoutGrid className="w-4 h-4" /> {t.all}
                 </TabsTrigger>
                 {categories.filter(c => c.slug !== 'all').map(cat => (
-                  <TabsTrigger key={cat.id} value={cat.slug} className="shrink-0">
-                    {cat.name}
+                  <TabsTrigger key={cat.id} value={cat.slug} className="shrink-0 font-bold">
+                    {lang === 'zh-TW' ? cat.name : cat.slug.charAt(0).toUpperCase() + cat.slug.slice(1)}
                   </TabsTrigger>
                 ))}
-                <TabsTrigger value="favorites" className="gap-2 text-amber-600 shrink-0">
-                  <Star className="w-4 h-4 fill-current" /> 我的收藏
+                <TabsTrigger value="favorites" className="gap-2 text-amber-600 shrink-0 font-bold">
+                  <Star className="w-4 h-4 fill-current" /> {t.favorites}
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -98,7 +117,7 @@ export const ClientPageContent = ({ initialResources, categories }: ClientPageCo
                 </div>
               ) : (
                 <div className="text-center py-20 bg-card rounded-2xl border border-dashed border-border">
-                  <p className="text-muted-foreground">找不到相關資源，請嘗試其他關鍵字或分類。</p>
+                  <p className="text-muted-foreground">{t.noResults}</p>
                 </div>
               )}
             </TabsContent>
